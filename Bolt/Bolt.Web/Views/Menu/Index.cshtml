@@ -1,40 +1,93 @@
 ﻿@model GetMenuDTO
-
-<h2>Menu</h2>
-
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
-<div class="container">
+
+<div class="container mt-30">
     <div class="row">
-        @if (Model != null)
-        {
-            foreach (Product product in Model.Products)
-            {
-                <div class="col-md-4">
-                    Product Name: @product?.Name <br />
-                    Product Description: @product?.Description <br />
-                    Product Price: @product.Price <br />
+        <div class="col-md-12 mb-30">
+            <ol class="breadcrumb mb-0">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Men watches</a></li>
+                <li class="active">All products</li>
+            </ol>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
 
-                    <input type="number" value="1" id="product-quantity-@product.Id" min="1" /><br />
-                    <input type="button" value="Add to cart" product-id="@product.Id" product-name="@product.Name" class="btn btn-primary add-to-cart-button" /><br />
-
-                    @Html.ActionLink("Details", "Index", "ProductDetails", new { productId = product.Id }, new { @class = "btn btn-primary" })
-                </div>
-            }
-        }
+                @if (Model != null)
+                {
+                    foreach (Product product in Model.Products)
+                    {
+                        <div class="smartphone-fw col-md-4 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="product-box  product-box-vertical">
+                                <div class="product-box-wrapper no-padding product-box-wrapper no-padding-bg">
+                                    <div class="product-box-image">
+                                        <img class="img-responsive" src="~/template/img/products/product-01.jpg" alt="product image">
+                                        <span class="product-box-hover-content zoom">
+                                            <span class="product-box-hover-content-container">
+                                                <span class="product-box-hover-content-icons">
+                                                    <a href="/ProductDetails?productId=@product.Id" title="details">
+                                                        <span class="ti-layout-list-thumb"></span>
+                                                    </a>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="product-box-details">
+                                        <span class="product-box-new">new!</span>
+                                        <h5>@product.Name</h5>
+                                        <div class="product-box-rating">
+                                            <ul>
+                                                <li><span class="glyphicon glyphicon-star"></span></li>
+                                                <li><span class="glyphicon glyphicon-star"></span></li>
+                                                <li><span class="glyphicon glyphicon-star"></span></li>
+                                                <li><span class="glyphicon glyphicon-star"></span></li>
+                                                <li><span class="glyphicon glyphicon-star-empty unactive"></span></li>
+                                            </ul>
+                                        </div>
+                                        <span class="product-box-price h5">$ @product.Price</span>
+                                        <a product-id="@product.Id" product-name="@product.Name" class="add-to-cart-button btn btn-link btn-sm no-padding add-item" data-image="~/template/img/products/product-01.jpg" data-name="@product?.Name" data-cost="@product.Price" data-id="1">
+                                            add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
 
+
+@*<div class="container">
+        <div class="row">
+            @if (Model != null)
+            {
+                foreach (Product product in Model.Products)
+                {
+                    <div class="col-md-4">
+                        Product Name: @product?.Name <br />
+                        Product Description: @product?.Description <br />
+                        Product Price: @product.Price <br />
+
+                        <input type="number" value="1" id="product-quantity-@product.Id" min="1" /><br />
+                        <input type="button" value="Add to cart" product-id="@product.Id" product-name="@product.Name" class="btn btn-primary add-to-cart-button" /><br />
+
+                        @Html.ActionLink("Details", "Index", "ProductDetails", new { productId = product.Id }, new { @class = "btn btn-primary" })
+                    </div>
+                }
+            }
+        </div>
+    </div>*@
 <script>
     $(document).ready(function() {
         $('.add-to-cart-button').click(function () {
             const productId = parseInt($(this).attr('product-id'));
             const productName = $(this).attr('product-name').toString();
-            const quantity = parseInt($("#product-quantity-" + productId).val());
+            const quantity = 1;
 
-            if (quantity === 0) {
-                alert("Please add min 1 item!");
-            }
 
             $.ajax({
                 type: "POST",
@@ -42,10 +95,10 @@
                 data: { productId: productId, productName: productName, quantity: quantity },
                 success: function () {
                     alert('Added item to cart');
-                    $("#product-quantity-" + productId).val(1);
+                    //$("#product-quantity-" + productId).val(1);
                 },
                 error: function () {
-                    $("#product-quantity-" + productId).val(1);
+                    //$("#product-quantity-" + productId).val(1);
                     alert('A error');
                 }
             });

@@ -1,6 +1,6 @@
 ﻿@model List<ProductViewModel>
 
-<h2>Cart Page</h2>
+<h2>Cart</h2>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
@@ -12,7 +12,6 @@
             Currently your basket is empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
         </div>
     }
-
 
     @if (Model != null && Model.Any())
     {
@@ -33,7 +32,7 @@
                             <div class="row">
                                 <span class="cart-description col-xs-12 col-md-5">
                                     <a class="h5" href="#">@product.Name</a>
-                                    <span class="cart-item-price h5">@product.Price $</span>
+                                    <span class="cart-item-price h5">$ @product.Price</span>
                                 </span>
 
                                 <span class="col-md-2 col-sm-12">
@@ -41,7 +40,7 @@
                                 </span>
 
                                 <span class="col-md-5 col-sm-12 text-right">
-                                    <span class="cart-price pull-right">@product.Price $<a class="cart-remove" href="#">
+                                    <span class="cart-price pull-right">$ @product.Price<a class="cart-remove" href="#">
                                         <span class="ti-trash icon pull-right mt-5 ml-10"></span>
                                     </a></span>
 
