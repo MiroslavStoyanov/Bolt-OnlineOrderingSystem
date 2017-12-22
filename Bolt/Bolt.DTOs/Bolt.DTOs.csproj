@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bolt.Core\Bolt.Core.csproj" />
+    <ProjectReference Include="..\Bolt.Models\Bolt.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Menu\" />
+  </ItemGroup>
+
+</Project>
