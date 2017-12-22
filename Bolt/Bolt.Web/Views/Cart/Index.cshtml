@@ -1,0 +1,176 @@
+﻿@model List<ProductViewModel>
+
+<h2>Cart Page</h2>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<div class="container">
+
+    <div class="alert alert-info" id="no-items-message" hidden="true">
+        Currently your basket is empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (ProductViewModel product in Model)
+        {
+                <div class="col-md-9">
+                    <ul class="cart-items width-100 pull-left pl-30 pr-30 pb-30 pt-30 border">
+                        <li class="cart-items-labels visible-lg-block visible-md-block row"> 
+                            <span class="col-md-6">product</span>
+                            <span class="col-md-2 text-center">quantity</span> 
+                            <span class="col-md-4 text-right">price</span>
+                        </li>
+                        <li class="row">
+                            <span class="cart-image col-xs-6 col-sm-2">
+                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
+                            </span>
+
+                            <div class="cart-item-right col-md-10">
+                                <div class="row">
+                                    <span class="cart-description col-xs-12 col-md-5">
+                                        <a class="h5" href="#">Product name</a>				   
+                                        <span class="cart-item-price h5">$ 33.00</span>
+                                    </span>
+
+                                    <span class="col-md-2 col-sm-12">
+                                        <input class="text-center form-control" type="text" value="10">
+                                    </span>
+
+                                    <span class="col-md-5 col-sm-12 text-right">
+                                        <span class="cart-price pull-right">@product.Price <a class="cart-remove" href="#">
+                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
+                                        </a></span>
+		                               
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <span class="cart-image col-xs-6 col-sm-2">
+                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
+                            </span>
+
+                            <div class="cart-item-right col-md-10">
+                                <div class="row">
+                                    <span class="cart-description col-xs-12 col-md-5">
+                                        <a class="h5" href="#">@product.Name</a>                               
+                                        <span class="cart-item-price h5">@product.Price</span>
+                                    </span>
+
+                                    <span class="col-md-2 col-sm-12">
+                                        <input class="text-center form-control" type="text" value="10">
+                                    </span>
+
+                                    <span class="col-md-5 col-sm-12 text-right">
+                                        <span class="cart-price pull-right">@product.Price <a class="cart-remove" href="#">
+                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
+                                        </a></span>
+		                               
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <span class="cart-image col-xs-6 col-sm-2">
+                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
+                            </span>
+
+                            <div class="cart-item-right col-md-10">
+                                <div class="row">
+                                    <span class="cart-description col-xs-12 col-md-5">
+                                        <a class="h5" href="#">Product name</a>                               
+                                        <span class="cart-item-price h5">$ 33.00</span>
+                                    </span>
+
+                                    <span class="col-md-2 col-sm-12">
+                                        <input class="text-center form-control" type="text" value="10">
+                                    </span>
+
+                                    <span class="col-md-5 col-sm-12 text-right">
+                                        <span class="cart-price pull-right">$330.00 <a class="cart-remove" href="#">
+                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
+                                        </a></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+            @*<div class="row product-row" id="product-row-@product.Id">
+                <div class="col-md-2">
+                    Name: @product.Name
+                </div>
+                <div class="col-md-2">
+                    Description: @product.Description
+                </div>
+                <div class="col-md-2">
+                    Price: @product.Price
+                </div>
+                <div class="col-md-4">
+                    <input type="number" value="@(product.Quantity ?? 1)" class="product-quantity" id="product-quantity-@product.Id" product-id="@product.Id" />
+                    <input type="button" value="Remove" class="btn btn-info remove-product-btn" product-id="@product.Id" />
+                </div>
+            </div>*@
+        }
+
+        @Html.ActionLink("Order", "Order", "Cart", null, new { @class = "btn btn-info" })
+    }
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ($('.product-row').length === 0) {
+            $('#no-items-message').show();
+        } else {
+            $('#no-items-message').hide();
+        }
+
+        $('.product-quantity').change(function () {
+            var productId = parseInt($(this).attr('product-id'));
+            var quantity = parseInt($('#product-quantity-' + productId).val());
+
+            if (quantity === 0) {
+                alert("Please add min 1 item!");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EditItemQuantity", "Cart")',
+                data: { productId: productId, quantity: quantity },
+                success: function () {
+                },
+                error: function () {
+                    alert('An error occured');
+                }
+            });
+        });
+
+        $('.remove-product-btn').click(function () {
+            var productId = parseInt($(this).attr('product-id'));
+
+            $.ajax({
+                type: "DELETE",
+                url: '@Url.Action("RemoveItem", "Cart")',
+                data: { productId: productId },
+                success: function (isDeleted) {
+                    if (isDeleted === true) {
+                        $("#product-row-" + productId).remove();
+                        alert('Removed item to cart');
+                        if ($('.product-row').length === 0) {
+                            $('#no-items-message').show();
+                        }
+                    }
+                },
+                error: function () {
+                    alert('An error occured');
+                }
+            });
+        });
+    });
+</script>

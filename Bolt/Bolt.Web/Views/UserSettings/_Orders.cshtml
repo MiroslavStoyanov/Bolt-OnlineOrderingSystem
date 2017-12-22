@@ -1,0 +1,72 @@
+﻿@model List<GetOrderDTO>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info" id="no-items-message" hidden="true">
+        Currently you haven't ordered anything <strong>@Html.ActionLink("Order", "Index", "Menu", null, null)</strong>
+    </div>
+}
+else
+{
+
+    <div class="container">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Order Placed Time</th>
+                    <th>Order Lines</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (GetOrderDTO order in Model)
+                {
+                    <tr>
+                        <td>@order.CreatedOn</td>
+                        <td>
+                            @if (order.OrderLines.Any())
+                            {
+                                OrderLine lastItem = order.OrderLines.Last();
+                                foreach (OrderLine orderLine in order.OrderLines)
+                                {
+                                    if (lastItem == orderLine)
+                                    {
+                                        <span><strong>@orderLine?.Quantity</strong>x @orderLine?.ProductName </span>
+                                    }
+                                    else
+                                    {
+                                        <span><strong>@orderLine?.Quantity</strong>x @orderLine?.ProductName &loz; </span>
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>@Html.ActionLink("Order", "ReOrder", "Orders", new { orderId = order.Id }, new { @class = "btn btn-success" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        @*<div class="row">
+                <div class="col-md-3">@order.CreatedOn</div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Actions</div>
+            </div>
+            @foreach (GetOrderDTO order in Model)
+            {
+                <div class="row">
+                    <div class="col-md-3">@order.CreatedOn</div>
+                    <div class="col-md-3">
+                        @if (order.OrderLines.Any())
+                        {
+                            foreach (OrderLine orderLine in order.OrderLines)
+                            {
+                                <span><strong>@orderLine?.Quantity</strong>x @orderLine?.ProductName | </span>
+                            }
+                        }
+                    </div>
+                    <div class="col-md-3">@Html.ActionLink("Order", "ReOrder", "Orders", new { orderId = order.Id }, new { @class = "btn btn-success" })</div>
+                </div>
+            }*@
+    </div>
+}
