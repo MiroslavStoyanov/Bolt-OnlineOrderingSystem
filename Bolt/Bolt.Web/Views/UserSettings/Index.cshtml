@@ -1,33 +1,30 @@
 ﻿@using Bolt.Web.ViewModels.UserSettings
 @model UserSettingsViewModel
-
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit user details</h2>
+<div class="container mt-30">
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#about-me">About Me</a></li>
+            <li><a data-toggle="tab" href="#orders">Orders</a></li>
+        </ul>
 
-<hr />
-
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#about-me">About Me</a></li>
-    <li><a data-toggle="tab" href="#orders">Orders</a></li>
-</ul>
-
-<div class="tab-content">
-    <div id="about-me" class="tab-pane fade in active">
-        <hr />
-        @Html.Partial("_AboutMe", Model.User)
-        <hr />
-    </div>
-    <div id="orders" class="tab-pane fade">
-        <hr />
-        @Html.Partial("_Orders", Model.Orders)
-        <hr />
+        <div class="tab-content">
+            <div id="about-me" class="tab-pane fade in active">
+                <hr />
+                @Html.Partial("_AboutMe", Model.User)
+                <hr />
+            </div>
+            <div id="orders" class="tab-pane fade">
+                <hr />
+                @Html.Partial("_Orders", Model.Orders)
+                <hr />
+            </div>
+        </div>
     </div>
 </div>
-
-
 
 
 @section Scripts {
