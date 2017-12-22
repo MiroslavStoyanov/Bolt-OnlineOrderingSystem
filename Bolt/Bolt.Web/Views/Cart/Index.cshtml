@@ -1,6 +1,8 @@
 ﻿@model List<ProductViewModel>
 
-<h2>Cart</h2>
+<div class="container mt-30">
+    <h2>Cart</h2>
+</div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
@@ -18,6 +20,7 @@
         foreach (ProductViewModel product in Model)
         {
             <div class="col-md-9">
+
                 <ul class="cart-items width-100 pull-left pl-30 pr-30 pb-30 pt-30 border">
                     <li class="cart-items-labels visible-lg-block visible-md-block row">
                         <span class="col-md-6">Product Name</span>
@@ -26,7 +29,7 @@
                     </li>
                     <li class="row">
                         <span class="cart-image col-xs-6 col-sm-2">
-                            <a href="#"><img alt="Product Description" src="~\template\img\products\product-03.jpg"></a>
+                            <a href="#"><img alt="Product Description" src="\template\img\products\product-03.jpg"></a>
                         </span>
                         <div class="cart-item-right col-md-10">
                             <div class="row">
