@@ -5,98 +5,52 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
 <div class="container">
+    
+    @if (Model == null)
+    {
+        <div class="alert alert-info" id="no-items-message" hidden="true">
+            Currently your basket is empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
+        </div>
+    }
 
-    <div class="alert alert-info" id="no-items-message" hidden="true">
-        Currently your basket is empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
-    </div>
 
     @if (Model != null && Model.Any())
     {
         foreach (ProductViewModel product in Model)
         {
-                <div class="col-md-9">
-                    <ul class="cart-items width-100 pull-left pl-30 pr-30 pb-30 pt-30 border">
-                        <li class="cart-items-labels visible-lg-block visible-md-block row"> 
-                            <span class="col-md-6">product</span>
-                            <span class="col-md-2 text-center">quantity</span> 
-                            <span class="col-md-4 text-right">price</span>
-                        </li>
-                        <li class="row">
-                            <span class="cart-image col-xs-6 col-sm-2">
-                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
-                            </span>
+            <div class="col-md-9">
+                <ul class="cart-items width-100 pull-left pl-30 pr-30 pb-30 pt-30 border">
+                    <li class="cart-items-labels visible-lg-block visible-md-block row">
+                        <span class="col-md-6">Product Name</span>
+                        <span class="col-md-2 text-center">Quantity</span>
+                        <span class="col-md-4 text-right">Price</span>
+                    </li>
+                    <li class="row">
+                        <span class="cart-image col-xs-6 col-sm-2">
+                            <a href="#"><img alt="Product Description" src="~\template\img\products\product-03.jpg"></a>
+                        </span>
+                        <div class="cart-item-right col-md-10">
+                            <div class="row">
+                                <span class="cart-description col-xs-12 col-md-5">
+                                    <a class="h5" href="#">@product.Name</a>
+                                    <span class="cart-item-price h5">@product.Price $</span>
+                                </span>
 
-                            <div class="cart-item-right col-md-10">
-                                <div class="row">
-                                    <span class="cart-description col-xs-12 col-md-5">
-                                        <a class="h5" href="#">Product name</a>				   
-                                        <span class="cart-item-price h5">$ 33.00</span>
-                                    </span>
+                                <span class="col-md-2 col-sm-12">
+                                    <input class="text-center form-control" type="text" value="@(product.Quantity ?? 1)">
+                                </span>
 
-                                    <span class="col-md-2 col-sm-12">
-                                        <input class="text-center form-control" type="text" value="@(product.Quantity ?? 1)">
-                                    </span>
+                                <span class="col-md-5 col-sm-12 text-right">
+                                    <span class="cart-price pull-right">@product.Price $<a class="cart-remove" href="#">
+                                        <span class="ti-trash icon pull-right mt-5 ml-10"></span>
+                                    </a></span>
 
-                                    <span class="col-md-5 col-sm-12 text-right">
-                                        <span class="cart-price pull-right">@product.Price <a class="cart-remove" href="#">
-                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
-                                        </a></span>
-		                               
-                                    </span>
-                                </div>
+                                </span>
                             </div>
-                        </li>
-                        <li class="row">
-                            <span class="cart-image col-xs-6 col-sm-2">
-                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
-                            </span>
-
-                            <div class="cart-item-right col-md-10">
-                                <div class="row">
-                                    <span class="cart-description col-xs-12 col-md-5">
-                                        <a class="h5" href="#">@product.Name</a>                               
-                                        <span class="cart-item-price h5">@product.Price</span>
-                                    </span>
-
-                                    <span class="col-md-2 col-sm-12">
-                                        <input class="text-center form-control" type="text" value="10">
-                                    </span>
-
-                                    <span class="col-md-5 col-sm-12 text-right">
-                                        <span class="cart-price pull-right">@product.Price <a class="cart-remove" href="#">
-                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
-                                        </a></span>
-		                               
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row">
-                            <span class="cart-image col-xs-6 col-sm-2">
-                                <a href="#"><img alt="product description" src="~\template\img\products\product-03.jpg"></a>
-                            </span>
-
-                            <div class="cart-item-right col-md-10">
-                                <div class="row">
-                                    <span class="cart-description col-xs-12 col-md-5">
-                                        <a class="h5" href="#">Product name</a>                               
-                                        <span class="cart-item-price h5">$ 33.00</span>
-                                    </span>
-
-                                    <span class="col-md-2 col-sm-12">
-                                        <input class="text-center form-control" type="text" value="10">
-                                    </span>
-
-                                    <span class="col-md-5 col-sm-12 text-right">
-                                        <span class="cart-price pull-right">$330.00 <a class="cart-remove" href="#">
-                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
-                                        </a></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
 
 
@@ -118,7 +72,10 @@
             </div>*@
         }
 
-        @Html.ActionLink("Order", "Order", "Cart", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("Order", "Order", "Cart", null, new
+        {
+            @class = "btn btn-info"
+        })
     }
 
 </div>
