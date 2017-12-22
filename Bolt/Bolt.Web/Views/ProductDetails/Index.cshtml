@@ -1,7 +1,73 @@
 ﻿@model ProductDetailsDTO
 
-<h2>Product Details</h2>
+<div class="container">
+    <div class="row">
+        <div class="product-image-wrapper col-md-8">
+            <div class="slide product-slide">
+                <div class="width-100">
+                    <a class="" href="~/template/img/products/product-01.jpg" data-lightbox="example-set" data-title="@Model.Name or description."><img class="img-responsive" alt="carousel image" src="~/template/img/products/product-01.jpg" title=""></a>
+                </div>
+            </div>
+        </div>
+        <div class="product-description-box col-md-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="product-description-box-name pull-left">@Model.Name</h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="product-button-section box">
+                        <span class="product-description-box-price">$@Model.Price</span>
+                        <ul class="product-detail-list mb-30">
+                            <li>
+                                <span class="product-detail-list-label">Rating</span>
+                                <ul class="pull-right product-review-value">
+                                    <li><span class="glyphicon glyphicon-star"></span></li>
+                                    <li><span class="glyphicon glyphicon-star"></span></li>
+                                    <li><span class="glyphicon glyphicon-star"></span></li>
+                                    <li><span class="glyphicon glyphicon-star"></span></li>
+                                    <li><span class="glyphicon glyphicon-star-empty unactive"></span></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span class="product-detail-list-label">Delivery</span>
+                                <span class="product-detail-value pull-right">24h </span>
+                            </li>
+                            <li>
+                                <span class="product-detail-list-label">Description</span>
+                                <span class="product-detail-value pull-right">@Model.Description </span>
+                            </li>
+                        </ul>
+                        <a product-id="@Model.Name" product-name="@Model.Name" class="btn btn-primary add-item add-to-cart-button" data-image="img/product/01.png" data-name="Almond heaven" data-cost="@Model.Price" data-id="6">
+                            <span class="ti-shopping-cart"></span> add to cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart-button').click(function () {
+            const productId = parseInt($(this).attr('product-id'));
+            const productName = $(this).attr('product-name').toString();
+            const quantity = 1;
 
-Name: @Model.Name <br />
-Description: @Model.Description <br />
-Price: @Model.Price <br />
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddItemToCart", "Menu")',
+                data: { productId: productId, productName: productName, quantity: quantity },
+                success: function () {
+                    alert('Added item to cart');
+                    //$("#product-quantity-" + productId).val(1);
+                },
+                error: function () {
+                    //$("#product-quantity-" + productId).val(1);
+                    alert('A error');
+                }
+            });
+        });
+    });
+</script>
