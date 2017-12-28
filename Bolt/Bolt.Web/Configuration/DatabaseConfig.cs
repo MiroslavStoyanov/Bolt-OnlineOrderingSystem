@@ -1,12 +1,14 @@
-﻿using System;
-using Bolt.Data.Contexts.Bolt.Persistence;
-using Bolt.Data.DatabaseConfiguration;
-using Bolt.EntityFrameworkCore.Initializers;
-using Bolt.EntityFrameworkCore.Initializers.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Bolt.Web.Configuration
+﻿namespace Bolt.Web.Configuration
 {
+    using System;
+
+    using Microsoft.Extensions.DependencyInjection;
+
+    using Data.DatabaseConfiguration;
+    using Data.Contexts.Bolt.Persistence;
+    using EntityFrameworkCore.Initializers;
+    using EntityFrameworkCore.Initializers.Extensions;
+
     public static class DatabaseConfig
     {
         public static void InitializeDatabase(IServiceProvider serviceProvider)
