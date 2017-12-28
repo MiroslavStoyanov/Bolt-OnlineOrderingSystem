@@ -15,10 +15,7 @@
 
         public string Get(string key) => this._memoryCache.Get<string>(key);
 
-        public void Set(string key, string value, int? expireTimeMinutes)
-        {
-            this._memoryCache.Set(key, value, DateTimeOffset.UtcNow.AddMinutes(expireTimeMinutes ?? 30));
-        }
+        public void Set(string key, string value, int? expireTimeMinutes) => this._memoryCache.Set(key, value, DateTimeOffset.UtcNow.AddMinutes(expireTimeMinutes ?? 30));
 
         public void Remove(string key) => this._memoryCache.Remove(key);
     }

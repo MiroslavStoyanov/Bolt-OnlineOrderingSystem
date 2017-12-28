@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.Core", "Bolt.Core\Bolt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.Core.Data", "Bolt.Core.Data\Bolt.Core.Data.csproj", "{BF3CD9DE-5DFA-4239-9934-A97DAA120BC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Data", "Bolt.Data\Bolt.Data.csproj", "{941DF038-FA99-430A-80BC-81ECF5FCAD66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.Data", "Bolt.Data\Bolt.Data.csproj", "{941DF038-FA99-430A-80BC-81ECF5FCAD66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.EntityFrameworkCore.Initializers", "Bolt.EntityFrameworkCore.Initializers\Bolt.EntityFrameworkCore.Initializers.csproj", "{9047F10C-6401-4C1C-89B1-CB696DF3E79B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.EntityFrameworkCore.Initializers", "Bolt.EntityFrameworkCore.Initializers\Bolt.EntityFrameworkCore.Initializers.csproj", "{9047F10C-6401-4C1C-89B1-CB696DF3E79B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.DTOs", "Bolt.DTOs\Bolt.DTOs.csproj", "{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.DTOs", "Bolt.DTOs\Bolt.DTOs.csproj", "{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.UnitTests", "Bolt.UnitTests\Bolt.UnitTests.csproj", "{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
