@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using DTOs.Menu;
     using Contracts;
+    using DTOs.Orders;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class MenuService : IMenuService

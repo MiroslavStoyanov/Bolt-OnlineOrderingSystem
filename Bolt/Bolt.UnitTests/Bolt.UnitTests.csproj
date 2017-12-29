@@ -4,4 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.0.0-beta0004" />
+    <PackageReference Include="Moq" Version="4.8.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bolt.Data\Bolt.Data.csproj" />
+    <ProjectReference Include="..\Bolt.Services\Bolt.Services.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Bolt.DTOs.Menu
+﻿namespace Bolt.DTOs.Orders
 {
     using System.Collections.Generic;
 

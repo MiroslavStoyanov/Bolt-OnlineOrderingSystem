@@ -5,7 +5,6 @@
     using AutoMapper;
 
     using Bolt.Models;
-    using DTOs.Menu;
     using DTOs.Users;
     using DTOs.Orders;
     using DTOs.Products;

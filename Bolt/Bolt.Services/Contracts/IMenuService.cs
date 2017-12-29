@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using Bolt.DTOs.Menu;
-
-namespace Bolt.Services.Contracts
+﻿namespace Bolt.Services.Contracts
 {
+    using System.Threading.Tasks;
+
+    using DTOs.Orders;
+
     public interface IMenuService
     {
         Task<GetMenuDTO> GetMenuAsync();

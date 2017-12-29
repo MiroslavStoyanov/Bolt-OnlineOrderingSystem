@@ -9,12 +9,11 @@
     using Microsoft.AspNetCore.Authorization;
 
     using Services;
-    using Bolt.DTOs.Menu;
+    using DTOs.Orders;
+    using DTOs.Products;
+    using Core.Data.Repositories;
     using Bolt.Services.Contracts;
-    using Bolt.Data.Contexts.Bolt.Core.Repositories;
-    using Bolt.Core.Data.Repositories;
-    using Bolt.Data.Contexts.Bolt.Core;
-    using Bolt.DTOs.Products;
+    using Data.Contexts.Bolt.Core;
 
     [Authorize]
     public class MenuController : Controller

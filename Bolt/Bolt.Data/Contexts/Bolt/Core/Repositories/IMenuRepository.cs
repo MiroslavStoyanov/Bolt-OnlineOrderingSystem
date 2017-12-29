@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Bolt.Core.Data.Repositories;
-using Bolt.DTOs.Menu;
+using Bolt.DTOs.Orders;
 using Bolt.Models;
 
 namespace Bolt.Data.Contexts.Bolt.Core.Repositories
