@@ -22,25 +22,28 @@ namespace Bolt.Services.Implementations
 
         public async Task<ProductDetailsDTO> GetProductDetailsAsync(int productId)
         {
-            var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+            IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
             ProductDetailsDTO product = await productsRepository.GetProductDetailsAsync(productId);
+
             return product;
         }
 
         public async Task<List<ProductDTO>> GetAllProductsAsync()
         {
-            var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+            IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
             List<ProductDTO> products = await productsRepository.GetAllProductsAsync();
+
             return products;
         }
 
         public async Task<List<ProductDTO>> GetProductsByIDsAsync(IEnumerable<int> productIds)
         {
-            var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+            IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
             List<ProductDTO> products = await productsRepository.GetProductsByIDsAsync(productIds);
+
             return products;
         }
 
@@ -52,6 +55,7 @@ namespace Bolt.Services.Implementations
                 Description = model.Description,
                 Price = model.Price
             });
+
             await this._unitOfWork.DbContext.SaveChangesAsync();
         }
 
@@ -64,6 +68,7 @@ namespace Bolt.Services.Implementations
                 Description = model.Description,
                 Price = model.Price
             });
+
             await this._unitOfWork.DbContext.SaveChangesAsync();
         }
 
@@ -73,6 +78,7 @@ namespace Bolt.Services.Implementations
             {
                 Id = productId
             });
+
             await this._unitOfWork.DbContext.SaveChangesAsync();
         }
     }
