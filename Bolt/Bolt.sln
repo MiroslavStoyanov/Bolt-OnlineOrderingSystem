@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.EntityFrameworkCore.In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bolt.DTOs", "Bolt.DTOs\Bolt.DTOs.csproj", "{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.UnitTests", "Bolt.UnitTests\Bolt.UnitTests.csproj", "{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.UnitTests", "Bolt.UnitTests\Bolt.UnitTests.csproj", "{E077EE52-FF15-4C02-B657-7B228D95B06B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BD1A575-7669-4CB1-88AA-E0CCFCA7C715}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEF8F9DA-E8F8-4476-AC7C-CB88DE45ED25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E077EE52-FF15-4C02-B657-7B228D95B06B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E077EE52-FF15-4C02-B657-7B228D95B06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E077EE52-FF15-4C02-B657-7B228D95B06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E077EE52-FF15-4C02-B657-7B228D95B06B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

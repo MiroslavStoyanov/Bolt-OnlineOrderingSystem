@@ -1,5 +1,6 @@
 ﻿namespace Bolt.Services.Implementations
 {
+    using System;
     using System.Threading.Tasks;
 
     using Contracts;
@@ -17,8 +18,15 @@
 
         public async Task<GetMenuDTO> GetMenuAsync()
         {
-            GetMenuDTO menu = await this._menuRepository.GetMenuAsync();
-            return menu;
+            try
+            {
+                GetMenuDTO menu = await this._menuRepository.GetMenuAsync();
+                return menu;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Something went while getting the menu.", ex);
+            }
         }
     }
 }
