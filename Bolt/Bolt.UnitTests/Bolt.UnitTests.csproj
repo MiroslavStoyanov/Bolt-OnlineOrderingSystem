@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.0.0-beta0004" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="Moq" Version="4.8.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
@@ -15,6 +16,7 @@
     <ProjectReference Include="..\Bolt.Core.Data\Bolt.Core.Data.csproj" />
     <ProjectReference Include="..\Bolt.Data\Bolt.Data.csproj" />
     <ProjectReference Include="..\Bolt.DTOs\Bolt.DTOs.csproj" />
+    <ProjectReference Include="..\Bolt.Services\Bolt.Services.csproj" />
   </ItemGroup>
 
 </Project>

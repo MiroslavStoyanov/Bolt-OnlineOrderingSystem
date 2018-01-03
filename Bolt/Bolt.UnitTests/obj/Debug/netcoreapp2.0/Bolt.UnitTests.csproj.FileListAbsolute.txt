@@ -26,3 +26,5 @@ C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\bin\Debug\netcore
 C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml
 C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\obj\Debug\netcoreapp2.0\Bolt.UnitTests.dll
 C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\obj\Debug\netcoreapp2.0\Bolt.UnitTests.pdb
+C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\bin\Debug\netcoreapp2.0\Bolt.Services.dll
+C:\Users\Miroslav Stoyanov\Desktop\Softuni\Bolt\Bolt.UnitTests\bin\Debug\netcoreapp2.0\Bolt.Services.pdb

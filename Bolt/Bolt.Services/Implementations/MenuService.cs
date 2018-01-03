@@ -25,7 +25,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Something went while getting the menu.", ex);
+                throw new ArgumentException("Something went wrong while getting the menu.", ex);
             }
         }
     }

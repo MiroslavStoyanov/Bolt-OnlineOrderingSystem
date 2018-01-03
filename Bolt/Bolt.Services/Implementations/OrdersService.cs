@@ -24,11 +24,11 @@
 
         public async Task<int> ReOrder(int orderId)
         {
-            var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
             GetOrderDTO orderDTO = await ordersRepository.GetOrder(orderId);
 
-            List<OrderLine> orderLines = orderDTO.OrderLines
+            var orderLines = orderDTO.OrderLines
                 .Select(p => new OrderLine
                 {
                     ProductId = p.Id,
@@ -54,7 +54,7 @@
 
         public async Task<OrderStatus> GetOrderStatusAsync(int orderId)
         {
-            var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
             OrderStatus orderStatus = await ordersRepository.GetOrderStatusAsync(orderId);
             return orderStatus;
@@ -62,7 +62,12 @@
 
         public async Task<int> AddOrderAsync(CreateOrderDTO orderDTO)
         {
-            List<OrderLine> orderLines = orderDTO.Products
+            if (orderDTO.Products == null)
+            {
+                throw new ArgumentException("The products in the Order DTO are null.");
+            }
+
+            var orderLines = orderDTO.Products
                 .Select(p => new OrderLine
                 {
                     ProductId = p.Id,
@@ -88,7 +93,7 @@
 
         public async Task<List<GetOrderDTO>> GetOrdersForUser(string userId, int numberOfOrdersToTake)
         {
-            var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
             List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);
             return orders;

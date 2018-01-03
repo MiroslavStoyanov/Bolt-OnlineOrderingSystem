@@ -19,3 +19,5 @@
 .vs/slnx.sqlite-journal
 .vs/slnx.sqlite
 *.sqlite
+/Bolt/Bolt.UnitTests/bin
+/Bolt/Bolt.UnitTests/obj
