@@ -82,10 +82,7 @@
         }
 
         [HttpGet]
-        public IActionResult OpenProductDetailsAsync(int productId)
-        {
-            return this.RedirectToAction("Index", "ProductDetailsController", new { productId = productId });
-        }
-
+        public IActionResult OpenProductDetailsAsync(int productId) 
+            => this.RedirectToAction("Index", "ProductDetailsController", new { productId = productId });
     }
 }

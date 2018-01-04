@@ -17,6 +17,13 @@
     <ProjectReference Include="..\Bolt.Data\Bolt.Data.csproj" />
     <ProjectReference Include="..\Bolt.DTOs\Bolt.DTOs.csproj" />
     <ProjectReference Include="..\Bolt.Services\Bolt.Services.csproj" />
+    <ProjectReference Include="..\Bolt.Web\Bolt.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.viewfeatures\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

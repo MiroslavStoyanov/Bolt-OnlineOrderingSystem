@@ -1,6 +1,4 @@
-﻿using Bolt.DTOs.Users;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -9,6 +7,7 @@ namespace Bolt.UnitTests.Services
     using Xunit;
     using FluentAssertions;
 
+    using DTOs.Users;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
