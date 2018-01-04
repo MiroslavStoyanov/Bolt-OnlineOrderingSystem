@@ -1,4 +1,6 @@
-﻿namespace Bolt.Services.Implementations
+﻿using System.Transactions;
+
+namespace Bolt.Services.Implementations
 {
     using System;
     using System.Linq;
@@ -49,8 +51,7 @@
 
             if (commitTransaction == null || !commitTransaction.IsSuccessful)
             {
-                // TODO: Change exception
-                throw new Exception();
+                throw new TransactionAbortedException("Failed to commit the transaction.");
             }
         }
 
