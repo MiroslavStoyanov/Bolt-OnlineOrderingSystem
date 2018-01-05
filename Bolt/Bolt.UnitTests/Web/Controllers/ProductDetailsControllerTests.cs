@@ -23,7 +23,7 @@
             var controller = new ProductDetailsController(productServiceMock.Object);
 
             //Act
-            var result = await controller.Index(productId);
+            IActionResult result = await controller.Index(productId);
 
             //Assert
             Assert.IsType<ViewResult>(result);

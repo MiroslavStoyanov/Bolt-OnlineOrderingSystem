@@ -47,8 +47,8 @@
                 return this.View(products);
             }
 
-            var deserializedProducts =
-                JsonConvert.DeserializeObject<List<DTOs.Products.ProductShoppingCartCache>>(cachedProducts);
+            List<ProductShoppingCartCache> deserializedProducts =
+                JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             IEnumerable<int> productIds = deserializedProducts.Select(a => a.Id);
             List<ProductDTO> productEntities = await this._productService.GetProductsByIDsAsync(productIds);
@@ -87,7 +87,7 @@
         {
             string cachedProducts = this._cacheService.Get("products");
 
-            var deserializedProducts = JsonConvert.DeserializeObject<List<DTOs.Products.ProductShoppingCartCache>>(cachedProducts);
+            List<ProductShoppingCartCache> deserializedProducts = JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             ProductShoppingCartCache product = deserializedProducts.FirstOrDefault(p => p.Id == productId);
             product.Quantity = quantity;
@@ -99,7 +99,8 @@
         {
             string cachedProducts = this._cacheService.Get("products");
 
-            var deserializedProducts = JsonConvert.DeserializeObject<List<DTOs.Products.ProductShoppingCartCache>>(cachedProducts);
+            List<ProductShoppingCartCache> deserializedProducts = 
+                JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             string username = this.User.Identity.Name;
             string userId = await this._usersService.GetUserIdByUsernameAsync(username);
