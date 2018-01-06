@@ -8,12 +8,10 @@
 
 <div class="container">
     
-    @if (Model == null)
-    {
         <div class="alert alert-info" id="no-items-message" hidden="true">
-            Currently your basket is empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
+            Your basket is currently empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
         </div>
-    }
+
 
     @if (Model != null && Model.Any())
     {
@@ -29,7 +27,7 @@
                     </li>
                     <li class="row">
                         <span class="cart-image col-xs-6 col-sm-2">
-                            <a href="#"><img alt="Product Description" src="\template\img\products\product-03.jpg"></a>
+                            <a href="#"><img alt="Product Description" src="\template\img\products\coffee 2716_1810.jpg"></a>
                         </span>
                         <div class="cart-item-right col-md-10">
                             <div class="row">
@@ -43,7 +41,7 @@
                                 </span>
 
                                 <span class="col-md-5 col-sm-12 text-right">
-                                    <span class="cart-price pull-right">$ @product.Price<a class="cart-remove" href="#">
+                                    <span class="cart-price pull-right">$ @product.Price<a class="cart-remove remove-product-btn" href="#">
                                         <span class="ti-trash icon pull-right mt-5 ml-10"></span>
                                     </a></span>
 
@@ -118,7 +116,7 @@
                 success: function (isDeleted) {
                     if (isDeleted === true) {
                         $("#product-row-" + productId).remove();
-                        alert('Removed item to cart');
+                        alert('Removed item from cart');
                         if ($('.product-row').length === 0) {
                             $('#no-items-message').show();
                         }
