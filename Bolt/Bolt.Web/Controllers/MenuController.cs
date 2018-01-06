@@ -11,25 +11,20 @@
     using Services;
     using DTOs.Orders;
     using DTOs.Products;
-    using Core.Data.Repositories;
     using Bolt.Services.Contracts;
-    using Data.Contexts.Bolt.Core;
 
     [Authorize]
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
         private readonly CookieCachingService _cacheService;
-        private readonly IUnitOfWork<IBoltDbContext> _unitOfWork;
 
         public MenuController(
             IMenuService menuService,
-            CookieCachingService cacheService,
-            IUnitOfWork<IBoltDbContext> unitOfWork)
+            CookieCachingService cacheService)
         {
             this._menuService = menuService;
             this._cacheService = cacheService;
-            this._unitOfWork = unitOfWork;
         }
 
         public async Task<IActionResult> Index()
