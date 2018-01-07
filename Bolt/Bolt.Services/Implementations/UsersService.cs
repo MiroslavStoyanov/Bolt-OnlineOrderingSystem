@@ -44,28 +44,35 @@ namespace Bolt.Services.Implementations
 
         public async Task EditUserAsync(string username, UserDTO model)
         {
-            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
-
-            User user = await usersRepository.GetUserByUsernameAsync(username);
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Country = model.Country;
-            user.Town = model.Town;
-            user.Address = model.Address;
-            user.PhoneNumber = model.PhoneNumber;
-
-            await this._unitOfWork.DbContext.SaveChangesAsync(false);
-            CommitTransactionModel commitTransaction = this._unitOfWork.CommitTransactions();
-
-            if (commitTransaction == null || !commitTransaction.IsSuccessful)
+            try
             {
-                throw new TransactionAbortedException("Failed to commit the transaction.");
+                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+
+                User user = await usersRepository.GetUserByUsernameAsync(username);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Country = model.Country;
+                user.Town = model.Town;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+
+                await this._unitOfWork.DbContext.SaveChangesAsync(false);
+                CommitTransactionModel commitTransaction = this._unitOfWork.CommitTransactions();
+
+                if (commitTransaction == null || !commitTransaction.IsSuccessful)
+                {
+                    throw new TransactionAbortedException("Failed to commit the transaction.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Something went wrong. Failed to edit the user", ex);
             }
         }
 
         public async Task<string> GetUserIdByUsernameAsync(string username)
         {
-            var usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
             string userId = await usersRepository
                 .Where(u => u.UserName == username)

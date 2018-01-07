@@ -1,7 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Core.Repositories;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -14,6 +11,7 @@ namespace Bolt.UnitTests.Services
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Core.Repositories;
 
     public class UsersServiceTests
     {
@@ -78,6 +76,55 @@ namespace Bolt.UnitTests.Services
 
             result.Should().NotThrow();
         }
+
+        [Fact]
+        public async Task EditUserAsync_WhenTheRepositoryThrowsAnException_ShouldThrowArgumentException()
+        {           
+            var exceptionToThrow = new ArgumentException();
+
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IUsersRepository>()).Callback(() => throw exceptionToThrow);
+
+            var service = new UsersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.EditUserAsync(null, null))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Something went wrong. Failed to edit the user")
+                .WithInnerException<Exception>();
+        } 
+
+        [Fact]
+        public async Task EditUserAsync_WhenTheUsernameIsNull_ShouldThrowArgumentException()
+        {           
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            var userDto = new UserDTO();
+
+            var service = new UsersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.EditUserAsync(null, userDto))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Something went wrong. Failed to edit the user")
+                .WithInnerException<Exception>();
+        } 
+
+        [Fact]
+        public async Task EditUserAsync_WhenTheuserDTOIsNull_ShouldThrowArgumentException()
+        {           
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+
+            var service = new UsersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.EditUserAsync("username", null))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Something went wrong. Failed to edit the user")
+                .WithInnerException<Exception>();
+        } 
 
         [Fact]
         public async Task GetUserIdByUsernameAsync_GivenAValidScenario_ShouldNotThrowAnException()
