@@ -2,7 +2,7 @@
 
 @if (Model == null || !Model.Any())
 {
-    <div class="alert alert-info" id="no-items-message" hidden="true">
+    <div class="alert alert-info" id="no-items-message">
         Currently you haven't ordered anything <strong>@Html.ActionLink("Order", "Index", "Menu", null, null)</strong>
     </div>
 }
