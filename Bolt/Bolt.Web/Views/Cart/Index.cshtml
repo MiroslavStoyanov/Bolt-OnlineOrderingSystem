@@ -1,19 +1,20 @@
 ﻿@model List<ProductViewModel>
 
 <div class="container mt-30">
-    <h2>Cart</h2>
+    <h2></h2>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
 <div class="container">
-    
+
+    @if (Model == null && Model.Any())
+    {
         <div class="alert alert-info" id="no-items-message" hidden="true">
             Your basket is currently empty. Please add items from <strong>@Html.ActionLink("menu", "Index", "Menu", null, null)</strong>
         </div>
-
-
-    @if (Model != null && Model.Any())
+    }
+    else
     {
         foreach (ProductViewModel product in Model)
         {
@@ -41,9 +42,11 @@
                                 </span>
 
                                 <span class="col-md-5 col-sm-12 text-right">
-                                    <span class="cart-price pull-right">$ @product.Price<a class="cart-remove remove-product-btn" href="#">
-                                        <span class="ti-trash icon pull-right mt-5 ml-10"></span>
-                                    </a></span>
+                                    <span class="cart-price pull-right">
+                                        $ @product.Price<a class="cart-remove remove-product-btn" href="#">
+                                            <span class="ti-trash icon pull-right mt-5 ml-10"></span>
+                                        </a>
+                                    </span>
 
                                 </span>
                             </div>
@@ -54,20 +57,20 @@
 
 
             @*<div class="row product-row" id="product-row-@product.Id">
-                <div class="col-md-2">
-                    Name: @product.Name
-                </div>
-                <div class="col-md-2">
-                    Description: @product.Description
-                </div>
-                <div class="col-md-2">
-                    Price: @product.Price
-                </div>
-                <div class="col-md-4">
-                    <input type="number" value="@(product.Quantity ?? 1)" class="product-quantity" id="product-quantity-@product.Id" product-id="@product.Id" />
-                    <input type="button" value="Remove" class="btn btn-info remove-product-btn" product-id="@product.Id" />
-                </div>
-            </div>*@
+                    <div class="col-md-2">
+                        Name: @product.Name
+                    </div>
+                    <div class="col-md-2">
+                        Description: @product.Description
+                    </div>
+                    <div class="col-md-2">
+                        Price: @product.Price
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" value="@(product.Quantity ?? 1)" class="product-quantity" id="product-quantity-@product.Id" product-id="@product.Id" />
+                        <input type="button" value="Remove" class="btn btn-info remove-product-btn" product-id="@product.Id" />
+                    </div>
+                </div>*@
         }
 
         @Html.ActionLink("Order", "Order", "Cart", null, new
