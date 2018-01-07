@@ -1,9 +1,8 @@
-﻿using System.Transactions;
-
-namespace Bolt.Services.Implementations
+﻿namespace Bolt.Services.Implementations
 {
     using System;
     using System.Linq;
+    using System.Transactions;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -72,14 +71,21 @@ namespace Bolt.Services.Implementations
 
         public async Task<string> GetUserIdByUsernameAsync(string username)
         {
-            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+            try
+            {
+                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
-            string userId = await usersRepository
-                .Where(u => u.UserName == username)
-                .Select(u => u.Id)
-                .FirstOrDefaultAsync();
+                string userId = await usersRepository
+                    .Where(u => u.UserName == username)
+                    .Select(u => u.Id)
+                    .FirstOrDefaultAsync();
 
-            return userId;
+                return userId;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Failed to get the user Id by the selected username", ex);
+            }
         }
     }
 }

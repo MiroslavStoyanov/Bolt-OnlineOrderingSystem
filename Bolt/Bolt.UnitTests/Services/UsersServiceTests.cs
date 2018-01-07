@@ -139,5 +139,40 @@
 
             result.Should().NotThrow();
         }
+
+        [Fact]
+        public async Task GetUserIdByUsernameAsync_WhenTheRepoThrowsAnException_ShouldThrowAnArgumentException()
+        {
+            var exceptionToThrow = new ArgumentException();
+
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IUsersRepository>()).Callback(() => throw exceptionToThrow);
+
+            var service = new UsersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetUserIdByUsernameAsync(null))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Failed to get the user Id by the selected username")
+                .WithInnerException<Exception>();
+
+        }
+
+        [Fact]
+        public async Task GetUserIdByUsernameAsync_GivenNullUsername_ShouldThrowAnArgumentException()
+        {
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+
+            var service = new UsersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetUserIdByUsernameAsync(null))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Failed to get the user Id by the selected username")
+                .WithInnerException<Exception>();
+
+        }
     }
 }
