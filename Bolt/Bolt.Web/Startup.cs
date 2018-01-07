@@ -80,7 +80,7 @@
 
             #endregion
 
-            services.AddScoped<CookieCachingService>();
+            services.AddScoped<ICookieCachingService, CookieCachingService>();
             services.AddSingleton<IEmailSender, EmailSender>();
 
             DatabaseConfig.InitializeDatabase(services.BuildServiceProvider());

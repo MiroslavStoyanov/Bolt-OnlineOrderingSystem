@@ -1,15 +1,17 @@
-﻿using System.Threading.Tasks;
-using Bolt.DTOs.Orders;
-using Bolt.Services.Contracts;
-using Bolt.Web.Controllers;
-using Bolt.Web.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using Moq;
-using Xunit;
-
-namespace Bolt.UnitTests.Web.Controllers
+﻿namespace Bolt.UnitTests.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Moq;
+    using Xunit;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+
+    using DTOs.Orders;
+    using Bolt.Web.Services;
+    using Bolt.Web.Controllers;
+    using Bolt.Services.Contracts;
+
     public class MenuControllerTests
     {
         [Fact]

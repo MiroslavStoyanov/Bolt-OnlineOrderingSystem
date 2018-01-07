@@ -1,4 +1,6 @@
-﻿namespace Bolt.UnitTests.Services
+﻿using Bolt.Data.Contexts.Bolt.Core.Repositories;
+
+namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -27,6 +29,24 @@
             Action result = async () => await service.GetProductDetailsAsync(productId);
 
             result.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task GetProductDetailsAsync_WhenTheRepoThrowsAnException_ShouldThrowArgumentException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IProductsRepository>()).Callback(() => throw exceptionToThrow);
+            const int productId = 2;
+
+            var service = new ProductsService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetProductDetailsAsync(productId))
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Failed to get the product details. Please try again.")
+                .WithInnerException<Exception>();
         }
 
         [Fact]

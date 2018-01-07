@@ -1,10 +1,11 @@
-﻿using Bolt.Core.Data.Repositories;
+﻿using Bolt.Models;
+using Bolt.Core.Data.Repositories;
 using Bolt.Data.Contexts.Bolt.Core;
 using Bolt.Data.Contexts.Bolt.Core.Repositories;
-using Bolt.Models;
 
 namespace Bolt.Services.Implementations
 {
+    using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
 
@@ -22,11 +23,18 @@ namespace Bolt.Services.Implementations
 
         public async Task<ProductDetailsDTO> GetProductDetailsAsync(int productId)
         {
-            IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+            try
+            {
+                IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
-            ProductDetailsDTO product = await productsRepository.GetProductDetailsAsync(productId);
+                ProductDetailsDTO product = await productsRepository.GetProductDetailsAsync(productId);
 
-            return product;
+                return product;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Failed to get the product details. Please try again.", ex);
+            }
         }
 
         public async Task<List<ProductDTO>> GetAllProductsAsync()

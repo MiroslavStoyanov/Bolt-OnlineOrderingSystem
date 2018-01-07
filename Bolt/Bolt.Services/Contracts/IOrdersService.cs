@@ -15,5 +15,7 @@
         Task<int> AddOrderAsync(CreateOrderDTO orderDTO);
 
         Task<List<GetOrderDTO>> GetOrdersForUser(string userId, int numberOfOrdersToTake);
+
+        Task<List<GetOrderDTO>> GetOrdersForUsername(string username, int numberOfOrdersToTake);
     }
 }

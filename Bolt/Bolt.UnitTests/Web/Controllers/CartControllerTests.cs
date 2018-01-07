@@ -1,4 +1,4 @@
-﻿namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Web.Controllers
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +7,7 @@
     using Moq;
     using Xunit;
     using Newtonsoft.Json;
+    using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
@@ -21,7 +22,7 @@
         [Fact]
         public async Task Index_WhenEmptyCart_ShouldReturnViewWithEmptyList()
         {
-            var cartController = new CartController(new Mock<ICookieCachingService>().Object, null, null, null);
+            var cartController = new CartController(new CookieCachingService(new Mock<IMemoryCache>().Object), null, null, null);
 
             IActionResult actualResult = await cartController.Index();
 
@@ -69,7 +70,7 @@
                         Description = "Test Description",
                         Price = 2.5
                     }
-            });
+    });
             IProductsService productsServiceObject = productsServiceMock.Object;
 
             var cartController = new CartController(cookieCachingServiceObject, productsServiceObject, null, null);
@@ -80,7 +81,7 @@
             var model = Assert.IsAssignableFrom<List<ProductViewModel>>(viewResult.ViewData.Model);
 
             Assert.Single(model);
-            Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(model.FirstOrDefault()));
+            expectedResult.Should().BeEquivalentTo(model.FirstOrDefault());
         }
     }
 }

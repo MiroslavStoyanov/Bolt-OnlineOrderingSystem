@@ -27,10 +27,9 @@
         {
             const int numberOfOrdersToTake = 10;
             string username = this.User.Identity.Name;
-            string userId = await this._usersService.GetUserIdByUsernameAsync(username);
 
             UserDTO user = await this._usersService.GetUserByUsernameAsync(username);
-            List<GetOrderDTO> orders = await this._ordersService.GetOrdersForUser(userId, numberOfOrdersToTake);
+            List<GetOrderDTO> orders = await this._ordersService.GetOrdersForUsername(username, numberOfOrdersToTake);
 
             var userSettingsViewModel = new UserSettingsViewModel(user, orders);
             return View(userSettingsViewModel);

@@ -98,5 +98,13 @@
             List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);
             return orders;
         }
+
+        public async Task<List<GetOrderDTO>> GetOrdersForUsername(string username, int numberOfOrdersToTake)
+        {
+            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+
+            List<GetOrderDTO> orders = await ordersRepository.GetOrdersForUsername(username, numberOfOrdersToTake);
+            return orders;
+        }
     }
 }

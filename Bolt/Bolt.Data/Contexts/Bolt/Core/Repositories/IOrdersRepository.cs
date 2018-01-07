@@ -13,5 +13,7 @@ namespace Bolt.Data.Contexts.Bolt.Core.Repositories
         Task<OrderStatus> GetOrderStatusAsync(int orderId);
 
         Task<List<GetOrderDTO>> GetLastOrdersForUser(string userId, int numberOfOrdersToTake);
+
+        Task<List<GetOrderDTO>> GetOrdersForUsername(string username, int numberOfOrdersToTake);
     }
 }

@@ -49,5 +49,17 @@ namespace Bolt.Data.Contexts.Bolt.Persistence.Repositories
 
             return orders;
         }
+
+        public async Task<List<GetOrderDTO>> GetOrdersForUsername(string username, int numberOfOrdersToTake)
+        {
+            List<GetOrderDTO> orders = await this
+                .Where(o => o.User.UserName == username)
+                .OrderByDescending(o => o.CreatedOn)
+                .Take(numberOfOrdersToTake)
+                .ProjectTo<GetOrderDTO>()
+                .ToListAsync();
+
+            return orders;
+        }
     }
 }

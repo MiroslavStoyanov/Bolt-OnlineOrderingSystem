@@ -17,11 +17,11 @@
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
-        private readonly CookieCachingService _cacheService;
+        private readonly ICookieCachingService _cacheService;
 
         public MenuController(
             IMenuService menuService,
-            CookieCachingService cacheService)
+            ICookieCachingService cacheService)
         {
             this._menuService = menuService;
             this._cacheService = cacheService;
@@ -77,7 +77,7 @@
         }
 
         [HttpGet]
-        public IActionResult OpenProductDetailsAsync(int productId) 
+        public IActionResult OpenProductDetailsAsync(int productId)
             => this.RedirectToAction("Index", "ProductDetailsController", new { productId = productId });
     }
 }
