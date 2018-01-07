@@ -19,18 +19,18 @@
     [Authorize]
     public class CartController : Controller
     {
-        private readonly CookieCachingService _cacheService;
+        private readonly ICookieCachingService _cookieCachingService;
         private readonly IProductsService _productService;
         private readonly IOrdersService _ordersService;
         private readonly IUsersService _usersService;
 
         public CartController(
-            CookieCachingService service,
+            ICookieCachingService cookieCachingService,
             IProductsService productService,
             IOrdersService ordersService,
             IUsersService usersService)
         {
-            this._cacheService = service;
+            this._cookieCachingService = cookieCachingService;
             this._productService = productService;
             this._ordersService = ordersService;
             this._usersService = usersService;
@@ -40,7 +40,7 @@
         {
             var products = new List<ProductViewModel>();
 
-            string cachedProducts = this._cacheService.Get("products");
+            string cachedProducts = this._cookieCachingService.Get("products");
 
             if (string.IsNullOrEmpty(cachedProducts))
             {
@@ -71,13 +71,13 @@
         [HttpDelete]
         public bool RemoveItem(int? productId)
         {
-            string cachedProducts = this._cacheService.Get("products");
+            string cachedProducts = this._cookieCachingService.Get("products");
 
-            var deserializedProducts = JsonConvert.DeserializeObject<List<DTOs.Products.ProductShoppingCartCache>>(cachedProducts);
+            var deserializedProducts = JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             deserializedProducts.RemoveAll(pr => pr.Id == productId);
 
-            this._cacheService.Set("products", JsonConvert.SerializeObject(deserializedProducts), 30);
+            this._cookieCachingService.Set("products", JsonConvert.SerializeObject(deserializedProducts), 30);
 
             return true;
         }
@@ -85,21 +85,21 @@
         [HttpPost]
         public void EditItemQuantity(int productId, int quantity)
         {
-            string cachedProducts = this._cacheService.Get("products");
+            string cachedProducts = this._cookieCachingService.Get("products");
 
             List<ProductShoppingCartCache> deserializedProducts = JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             ProductShoppingCartCache product = deserializedProducts.FirstOrDefault(p => p.Id == productId);
             product.Quantity = quantity;
 
-            this._cacheService.Set("products", JsonConvert.SerializeObject(deserializedProducts), 30);
+            this._cookieCachingService.Set("products", JsonConvert.SerializeObject(deserializedProducts), 30);
         }
 
         public async Task<IActionResult> Order()
         {
-            string cachedProducts = this._cacheService.Get("products");
+            string cachedProducts = this._cookieCachingService.Get("products");
 
-            List<ProductShoppingCartCache> deserializedProducts = 
+            List<ProductShoppingCartCache> deserializedProducts =
                 JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             string username = this.User.Identity.Name;
@@ -115,7 +115,7 @@
 
             int orderId = await this._ordersService.AddOrderAsync(orderDTO);
 
-            this._cacheService.Remove("products");
+            this._cookieCachingService.Remove("products");
 
             return this.RedirectToAction("Index", "OrderTracker", new { orderId });
         }

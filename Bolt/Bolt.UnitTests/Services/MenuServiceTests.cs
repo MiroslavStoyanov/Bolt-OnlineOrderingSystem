@@ -7,6 +7,7 @@
     using Xunit;
     using FluentAssertions;
 
+    using Bolt.Services.Implementations;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class MenuServiceTests
@@ -16,7 +17,9 @@
         {
             IMenuRepository menuRepositoryMock = new Mock<IMenuRepository>().Object;
 
-            Action action = async () => await menuRepositoryMock.GetMenuAsync();
+            var service = new MenuService(menuRepositoryMock);
+
+            Action action = async () => await service.GetMenuAsync();
 
             action.Should().NotThrow();
         }
@@ -24,15 +27,22 @@
         [Fact]
         public async Task GetMenuAsync_WhenTheRepositoryThrowsAnException_ShouldThrowProperException()
         {
-            var menuRepositoryMock = new Mock<IMenuRepository>();
+            var exceptionToThrow = new ArgumentException();
+
+            var menuRepositoryMock = new Mock<IMenuRepository> { CallBase = true };
             menuRepositoryMock.Setup(x => x.GetMenuAsync())
-                .ThrowsAsync(new ArgumentException("Unable to get the repo."));
+                .Callback(() => throw exceptionToThrow);
 
             IMenuRepository menuRepositoryObject = menuRepositoryMock.Object;
 
-            Action action = async () => await menuRepositoryObject.GetMenuAsync();
+            var service = new MenuService(menuRepositoryObject);
 
-            action.Should().Throw<ArgumentException>();
+            service
+                .Awaiting(async sut => await sut.GetMenuAsync())
+                .Should()
+                .ThrowExactly<ArgumentException>()
+                .WithMessage("Something went wrong while getting the menu.")
+                .WithInnerException<Exception>();
         }
     }
 }

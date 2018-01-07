@@ -28,10 +28,18 @@ namespace Bolt.Services.Implementations
 
         public async Task<UserDTO> GetUserByUsernameAsync(string username)
         {
-            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+            try
+            {
+                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
-            User user = await usersRepository.GetUserByUsernameAsync(username);
-            return Mapper.Map<UserDTO>(user);
+                User user = await usersRepository.GetUserByUsernameAsync(username);
+
+                return Mapper.Map<UserDTO>(user);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Failed to get the user by username.", ex);
+            }
         }
 
         public async Task EditUserAsync(string username, UserDTO model)
