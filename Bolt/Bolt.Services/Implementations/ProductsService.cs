@@ -7,8 +7,11 @@
     using Models;
     using Contracts;
     using DTOs.Products;
+    using Core.Validation;
+    using ExceptionHandling;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
+    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class ProductsService : IProductsService
@@ -22,6 +25,8 @@
 
         public async Task<ProductDetailsDTO> GetProductDetailsAsync(int productId)
         {
+            Require.ThatIntIsNotNull(productId, typeof(GetProductDetailsException), ServicesErrorCodes.GetProductDetails);
+
             try
             {
                 IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
@@ -32,7 +37,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Failed to get the product details. Please try again.", ex);
+                throw new GetProductDetailsException(ServicesErrorCodes.GetProductDetails, ex);
             }
         }
 
@@ -48,7 +53,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the products has failed. Please try again.", ex);
+                throw new GetAllProductsAsyncException(ServicesErrorCodes.GetAllProducts, ex);
             }
         }
 
@@ -64,7 +69,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the products by Id has failed. Please try again.", ex);
+                throw new GetProductsByIDsAsyncException(ServicesErrorCodes.GetProductsByIDs, ex);
             }
         }
 

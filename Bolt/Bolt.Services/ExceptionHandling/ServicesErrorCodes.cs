@@ -21,5 +21,13 @@
         internal static ErrorType GetOrdersForUser { get; } = new ErrorType(0x0000D005, ExceptionMessages.GetOrdersForUserMessage);
 
         internal static ErrorType GetOrdersForUsername { get; } = new ErrorType(0x0000D006, ExceptionMessages.GetOrdersForUsernameMessage);
+
+        internal static ErrorType GetProductDetails { get; } = new ErrorType(0x0000D007, ExceptionMessages.GetProductDetailsMessage);
+
+        internal static ErrorType GetProductDetailsProductIdNull { get; } = new ErrorType(0x0000D008, ExceptionMessages.GetProductDetailsProductIdNullMessage);
+
+        internal static ErrorType GetAllProducts { get; } = new ErrorType(0x0000D009, ExceptionMessages.GetAllProductsMessage);
+
+        internal static ErrorType GetProductsByIDs { get; } = new ErrorType(0x0000D010, ExceptionMessages.GetProductsByIDsMessage);
     }
 }
