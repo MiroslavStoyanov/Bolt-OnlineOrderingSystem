@@ -24,40 +24,54 @@
 
         public async Task<int> ReOrder(int orderId)
         {
-            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
-
-            GetOrderDTO orderDTO = await ordersRepository.GetOrder(orderId);
-
-            var orderLines = orderDTO.OrderLines
-                .Select(p => new OrderLine
-                {
-                    ProductId = p.Id,
-                    Quantity = p.Quantity,
-                    ProductName = p.ProductName
-                })
-                .ToList();
-
-            var order = new Order
+            try
             {
-                CreatedOn = DateTime.Now,
-                OrderStatus = OrderStatus.Accepted,
-                UserId = orderDTO.UserId,
-                OrderLines = orderLines
-            };
+                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
-            await this._unitOfWork.DbContext.Orders.AddAsync(order);
-            await this._unitOfWork.DbContext.SaveChangesAsync();
-            CommitTransactionModel response = this._unitOfWork.CommitTransactions();
+                GetOrderDTO orderDTO = await ordersRepository.GetOrder(orderId);
 
-            return order.Id;
+                var orderLines = orderDTO.OrderLines
+                    .Select(p => new OrderLine
+                    {
+                        ProductId = p.Id,
+                        Quantity = p.Quantity,
+                        ProductName = p.ProductName
+                    })
+                    .ToList();
+
+                var order = new Order
+                {
+                    CreatedOn = DateTime.Now,
+                    OrderStatus = OrderStatus.Accepted,
+                    UserId = orderDTO.UserId,
+                    OrderLines = orderLines
+                };
+
+                await this._unitOfWork.DbContext.Orders.AddAsync(order);
+                await this._unitOfWork.DbContext.SaveChangesAsync();
+                CommitTransactionModel response = this._unitOfWork.CommitTransactions();
+
+                return order.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Re-order action has failed. Please try again.", ex);
+            }
         }
 
         public async Task<OrderStatus> GetOrderStatusAsync(int orderId)
         {
-            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            try
+            {
+                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
-            OrderStatus orderStatus = await ordersRepository.GetOrderStatusAsync(orderId);
-            return orderStatus;
+                OrderStatus orderStatus = await ordersRepository.GetOrderStatusAsync(orderId);
+                return orderStatus;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Getting the order status has failed. Please try again.", ex);
+            }
         }
 
         public async Task<int> AddOrderAsync(CreateOrderDTO orderDTO)
@@ -67,44 +81,66 @@
                 throw new ArgumentException("The products in the Order DTO are null.");
             }
 
-            var orderLines = orderDTO.Products
-                .Select(p => new OrderLine
-                {
-                    ProductId = p.Id,
-                    Quantity = p.Quantity,
-                    ProductName = p.ProductName
-                })
-                .ToList();
-
-            var order = new Order
+            try
             {
-                CreatedOn = orderDTO.CreatedOn,
-                OrderStatus = orderDTO.OrderStatus,
-                UserId = orderDTO.UserId,
-                OrderLines = orderLines
-            };
+                var orderLines = orderDTO.Products
+                    .Select(p => new OrderLine
+                    {
+                        ProductId = p.Id,
+                        Quantity = p.Quantity,
+                        ProductName = p.ProductName
+                    })
+                    .ToList();
 
-            await this._unitOfWork.DbContext.Orders.AddAsync(order);
-            await this._unitOfWork.DbContext.SaveChangesAsync();
-            CommitTransactionModel response = this._unitOfWork.CommitTransactions();
+                var order = new Order
+                {
+                    CreatedOn = orderDTO.CreatedOn,
+                    OrderStatus = orderDTO.OrderStatus,
+                    UserId = orderDTO.UserId,
+                    OrderLines = orderLines
+                };
 
-            return order.Id;
+                await this._unitOfWork.DbContext.Orders.AddAsync(order);
+                await this._unitOfWork.DbContext.SaveChangesAsync();
+                CommitTransactionModel response = this._unitOfWork.CommitTransactions();
+
+                return order.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Adding the order to the basket has failed. Please try again.", ex);
+            }
         }
 
         public async Task<List<GetOrderDTO>> GetOrdersForUser(string userId, int numberOfOrdersToTake)
         {
-            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            try
+            {
 
-            List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);
-            return orders;
+                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+
+                List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Getting the orders for the current user has failed. Please try again.", ex);
+            }
         }
 
         public async Task<List<GetOrderDTO>> GetOrdersForUsername(string username, int numberOfOrdersToTake)
         {
-            IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+            try
+            {
+                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
-            List<GetOrderDTO> orders = await ordersRepository.GetOrdersForUsername(username, numberOfOrdersToTake);
-            return orders;
+                List<GetOrderDTO> orders = await ordersRepository.GetOrdersForUsername(username, numberOfOrdersToTake);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Getting the orders for the selected username has failed. Please try again.", ex);
+            }
         }
     }
 }

@@ -60,7 +60,7 @@
 
                 if (commitTransaction == null || !commitTransaction.IsSuccessful)
                 {
-                    throw new TransactionAbortedException("Failed to commit the transaction.");
+                    throw new TransactionAbortedException("Failed to commit the transaction.", commitTransaction.CommitException);
                 }
             }
             catch (Exception ex)

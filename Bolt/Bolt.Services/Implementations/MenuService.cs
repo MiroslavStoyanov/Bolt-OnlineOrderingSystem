@@ -5,28 +5,32 @@
 
     using Contracts;
     using DTOs.Orders;
+    using Core.Data.Repositories;
+    using Data.Contexts.Bolt.Core;
     using Data.Contexts.Bolt.Core.Repositories;
+
 
     public class MenuService : IMenuService
     {
-        private readonly IMenuRepository _menuRepository;
+        private readonly IUnitOfWork<IBoltDbContext> _unitOfWork;
 
-        public MenuService(IMenuRepository menuRepository)
+        public MenuService(IUnitOfWork<IBoltDbContext> unitOfWork)
         {
-            this._menuRepository = menuRepository;
+            this._unitOfWork = unitOfWork;
         }
 
-        //TODO; Implement UnitOFWork here, the repository needs to be caught from there
         public async Task<GetMenuDTO> GetMenuAsync()
         {
             try
             {
-                GetMenuDTO menu = await this._menuRepository.GetMenuAsync();
+                IMenuRepository menuRepository = this._unitOfWork.GetRepository<IMenuRepository>();
+
+                GetMenuDTO menu = await menuRepository.GetMenuAsync();
                 return menu;
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Something went wrong while getting the menu.", ex);
+                throw new ArgumentException("Getting the menu has failed. Please try again.", ex);
             }
         }
     }
