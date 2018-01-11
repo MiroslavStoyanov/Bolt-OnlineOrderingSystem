@@ -5,10 +5,11 @@
 
     using Contracts;
     using DTOs.Orders;
+    using ExceptionHandling;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
+    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
-
 
     public class MenuService : IMenuService
     {
@@ -30,7 +31,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the menu has failed. Please try again.", ex);
+                throw new GetMenuAsyncException(ServicesErrorCodes.GetMenuAsync, ex);
             }
         }
     }

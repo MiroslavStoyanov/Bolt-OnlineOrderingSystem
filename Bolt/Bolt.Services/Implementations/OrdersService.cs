@@ -5,12 +5,14 @@
     using System.Threading.Tasks;
     using System.Collections.Generic;
 
-    using Contracts;
     using Models;
+    using Contracts;
     using DTOs.Orders;
+    using ExceptionHandling;
     using Core.Data.Transactions;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
+    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class OrdersService : IOrdersService
@@ -55,7 +57,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Re-order action has failed. Please try again.", ex);
+                throw new ReOrderException(ServicesErrorCodes.ReOrder, ex);
             }
         }
 
@@ -70,7 +72,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the order status has failed. Please try again.", ex);
+                throw new GetOrderStatusAsyncException(ServicesErrorCodes.GetOrderStatusAsync, ex);
             }
         }
 
@@ -108,7 +110,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Adding the order to the basket has failed. Please try again.", ex);
+                throw new AddOrderAsyncException(ServicesErrorCodes.AddOrderAsync, ex);
             }
         }
 
@@ -124,7 +126,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the orders for the current user has failed. Please try again.", ex);
+                throw new GetOrdersForUserException(ServicesErrorCodes.GetOrdersForUser, ex);
             }
         }
 
@@ -139,7 +141,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Getting the orders for the selected username has failed. Please try again.", ex);
+                throw new GetOrdersForUsernameException(ServicesErrorCodes.GetOrdersForUsername, ex);
             }
         }
     }
