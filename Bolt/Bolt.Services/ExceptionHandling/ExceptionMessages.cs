@@ -21,5 +21,19 @@
         internal const string GetAllProductsMessage = "Failed to get all products. Please try again.";
 
         internal const string GetProductsByIDsMessage = "Failed to get the product Ids. Please try again.";
+
+        internal const string AddProductMessage = "Failed to add the product to the basket. Please try again.";
+
+        internal const string AddProductModelNullMessage = "The model cannot be null or empty.";
+
+        internal const string UpdateProductNullProductIdMessage = "The product Id cannot be null or empty.";
+
+        internal const string UpdateProductNullModelMessage = "The model cannot be null or empty.";
+
+        internal const string UpdateProductMessage = "Failed to update the product. Please try again.";
+
+        internal const string DeleteProductMessage = "Failed to delete the product. Please try again.";
+
+        internal const string DeleteProductNullId = "The product Id cannot be null or empty.";
     }
 }

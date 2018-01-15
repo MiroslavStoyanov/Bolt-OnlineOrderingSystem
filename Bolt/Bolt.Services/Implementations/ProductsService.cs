@@ -75,6 +75,8 @@
 
         public async Task AddProductAsync(ProductDTO model)
         {
+            Require.ThatObjectIsNotNull(model, typeof(AddProductAsyncException), ServicesErrorCodes.AddProductModelNull);
+
             try
             {
                 await this._unitOfWork.DbContext.Products.AddAsync(new Product
@@ -88,12 +90,15 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Adding the product has failed. Please try again.", ex);
+                throw new AddProductAsyncException(ServicesErrorCodes.AddProduct, ex);
             }
         }
 
         public async Task UpdateProductAsync(int productId, ProductDTO model)
         {
+            Require.ThatIntIsNotNull(productId, typeof(UpdateProductAsyncException), ServicesErrorCodes.UpdateProductNullProductId);
+            Require.ThatObjectIsNotNull(model, typeof(UpdateProductAsyncException), ServicesErrorCodes.UpdateProductNullModel);
+
             try
             {
                 this._unitOfWork.DbContext.Products.Update(new Product
@@ -108,12 +113,14 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Updating the product has failed. Please try again.", ex);
+                throw new UpdateProductAsyncException(ServicesErrorCodes.UpdateProduct, ex);
             }
         }
 
         public async Task DeleteProductAsync(int productId)
         {
+            Require.ThatIntIsNotNull(productId, typeof(DeleteProductAsyncException), ServicesErrorCodes.DeleteProductNullId);
+
             try
             {
                 this._unitOfWork.DbContext.Products.Remove(new Product
@@ -125,7 +132,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Deleting the product has failed. Please try again.", ex);
+                throw new DeleteProductAsyncException(ServicesErrorCodes.DeleteProduct, ex);
             }
         }
     }

@@ -29,5 +29,19 @@
         internal static ErrorType GetAllProducts { get; } = new ErrorType(0x0000D009, ExceptionMessages.GetAllProductsMessage);
 
         internal static ErrorType GetProductsByIDs { get; } = new ErrorType(0x0000D010, ExceptionMessages.GetProductsByIDsMessage);
+
+        internal static ErrorType AddProduct { get; } = new ErrorType(0x0000D011, ExceptionMessages.AddProductMessage);
+
+        internal static ErrorType AddProductModelNull { get; } = new ErrorType(0x0000D012, ExceptionMessages.AddProductModelNullMessage);
+
+        internal static ErrorType UpdateProductNullProductId { get; } = new ErrorType(0x0000D013, ExceptionMessages.UpdateProductNullProductIdMessage);
+
+        internal static ErrorType UpdateProductNullModel { get; } = new ErrorType(0x0000D014, ExceptionMessages.UpdateProductNullModelMessage);
+
+        internal static ErrorType UpdateProduct { get; } = new ErrorType(0x0000D015, ExceptionMessages.UpdateProductMessage);
+
+        internal static ErrorType DeleteProduct { get; } = new ErrorType(0x0000D016, ExceptionMessages.DeleteProductMessage);
+
+        internal static ErrorType DeleteProductNullId { get; } = new ErrorType(0x0000D017, ExceptionMessages.DeleteProductNullIdMessage);
     }
 }
