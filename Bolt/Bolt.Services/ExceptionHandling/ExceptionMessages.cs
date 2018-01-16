@@ -34,6 +34,22 @@
 
         internal const string DeleteProductMessage = "Failed to delete the product. Please try again.";
 
-        internal const string DeleteProductNullId = "The product Id cannot be null or empty.";
+        internal const string DeleteProductNullIdMessage = "The product Id cannot be null or empty.";
+
+        internal const string GetUserByUsernameMessage = "Failed to get the user by username. Please try again.";
+
+        internal const string GetUserByUsernameNullStringMessage = "The ussername cannot be null or empty.";
+
+        internal const string EditUserAsyncUsernameNullMessage = "The username cannot be null or empty.";
+
+        internal const string EditUserAsyncModelNullMessage = "The User DTO model cannot be null or empty.";
+
+        internal const string CommitTransactionMessage = "Failed to commit the transaction.";
+
+        internal const string EditUserMessage = "Failed to edit the user. Please try again.";
+
+        internal const string GetUserIdByUsernameNullUsernameMessage = "The username cannot be null or empty.";
+
+        internal const string GetUserIdByUsernameMessage = "Failed to get the username given the current user Id. Please try again.";
     }
 }

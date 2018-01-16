@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Transactions;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -11,9 +10,12 @@
     using Contracts;
     using DTOs.Users;
     using Models;
+    using Core.Validation;
+    using ExceptionHandling;
     using Core.Data.Repositories;
     using Core.Data.Transactions;
     using Data.Contexts.Bolt.Core;
+    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class UsersService : IUsersService
@@ -27,6 +29,8 @@
 
         public async Task<UserDTO> GetUserByUsernameAsync(string username)
         {
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(GetUserByUsernameException), ServicesErrorCodes.GetUserByUsernameNullString);
+
             try
             {
                 IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
@@ -37,12 +41,15 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Failed to get the user by username.", ex);
+                throw new GetUserByUsernameException(ServicesErrorCodes.GetUserByUsername, ex);
             }
         }
 
         public async Task EditUserAsync(string username, UserDTO model)
         {
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(EditUserAsyncException), ServicesErrorCodes.EditUserAsyncUsernameNull);
+            Require.ThatObjectIsNotNull(model, typeof(EditUserAsyncException), ServicesErrorCodes.EditUserAsyncModelNull);
+
             try
             {
                 IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
@@ -60,17 +67,19 @@
 
                 if (commitTransaction == null || !commitTransaction.IsSuccessful)
                 {
-                    throw new TransactionAbortedException("Failed to commit the transaction.", commitTransaction.CommitException);
+                    throw new EditUserAsyncException(ServicesErrorCodes.CommitTransaction, commitTransaction?.CommitException);
                 }
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Something went wrong. Failed to edit the user", ex);
+                throw new EditUserAsyncException(ServicesErrorCodes.EditUser, ex);
             }
         }
 
         public async Task<string> GetUserIdByUsernameAsync(string username)
         {
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(GetUserIdByUsernameException), ServicesErrorCodes.GetUserIdByUsernameNullUsername);
+
             try
             {
                 IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
@@ -84,7 +93,7 @@
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Failed to get the user Id by the selected username", ex);
+                throw new GetUserIdByUsernameException(ServicesErrorCodes.GetUserIdByUsername, ex);
             }
         }
     }

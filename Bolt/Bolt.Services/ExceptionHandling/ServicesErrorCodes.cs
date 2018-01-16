@@ -43,5 +43,21 @@
         internal static ErrorType DeleteProduct { get; } = new ErrorType(0x0000D016, ExceptionMessages.DeleteProductMessage);
 
         internal static ErrorType DeleteProductNullId { get; } = new ErrorType(0x0000D017, ExceptionMessages.DeleteProductNullIdMessage);
+
+        internal static ErrorType GetUserByUsername { get; } = new ErrorType(0x0000D018, ExceptionMessages.GetUserByUsernameMessage);
+
+        internal static ErrorType GetUserByUsernameNullString { get; } = new ErrorType(0x0000D019, ExceptionMessages.GetUserByUsernameNullStringMessage);
+
+        internal static ErrorType EditUserAsyncUsernameNull { get; } = new ErrorType(0x0000D020, ExceptionMessages.EditUserAsyncUsernameNullMessage);
+
+        internal static ErrorType EditUserAsyncModelNull { get; } = new ErrorType(0x0000D021, ExceptionMessages.EditUserAsyncModelNullMessage);
+
+        internal static ErrorType CommitTransaction { get; } = new ErrorType(0x0000D022, ExceptionMessages.CommitTransactionMessage);
+
+        internal static ErrorType EditUser { get; } = new ErrorType(0x0000D023, ExceptionMessages.EditUserMessage);
+
+        internal static ErrorType GetUserIdByUsernameNullUsername { get; } = new ErrorType(0x0000D024, ExceptionMessages.GetUserIdByUsernameNullUsernameMessage);
+
+        internal static ErrorType GetUserIdByUsername { get; } = new ErrorType(0x0000D025, ExceptionMessages.GetUserIdByUsernameMessage);
     }
 }
