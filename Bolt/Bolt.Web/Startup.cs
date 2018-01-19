@@ -1,4 +1,9 @@
-﻿namespace Bolt.Web
+﻿using System.Net;
+using Bolt.Web.Filters;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+
+namespace Bolt.Web
 {
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
@@ -54,6 +59,12 @@
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
+            services.AddMvc(
+                config => { 
+                    config.Filters.Add(typeof(CustomExceptionFilter));
+                }
+            );
+
             #region Bolt.Core.Data
 
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
@@ -96,7 +107,23 @@
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(
+                    options =>
+                    {
+                        options.Run(
+                            async context =>
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                context.Response.ContentType = "text/html";
+                                IExceptionHandlerFeature ex = context.Features.Get<IExceptionHandlerFeature>();
+                                if (ex != null)
+                                {
+                                    string err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace }";
+                                    await context.Response.WriteAsync(err).ConfigureAwait(false);
+                                }
+                            });
+                    }
+                );
             }
 
             app.UseStaticFiles();
