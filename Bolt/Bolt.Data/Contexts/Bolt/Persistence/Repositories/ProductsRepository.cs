@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+
 using AutoMapper.QueryableExtensions;
-using Bolt.Core.Data.Contexts;
+
 using Bolt.Models;
 using Bolt.DTOs.Products;
 using Bolt.Core.Data.Repositories;

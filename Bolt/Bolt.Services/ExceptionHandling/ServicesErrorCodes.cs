@@ -24,8 +24,6 @@
 
         internal static ErrorType GetProductDetails { get; } = new ErrorType(0x0000D007, ExceptionMessages.GetProductDetailsMessage);
 
-        internal static ErrorType GetProductDetailsProductIdNull { get; } = new ErrorType(0x0000D008, ExceptionMessages.GetProductDetailsProductIdNullMessage);
-
         internal static ErrorType GetAllProducts { get; } = new ErrorType(0x0000D009, ExceptionMessages.GetAllProductsMessage);
 
         internal static ErrorType GetProductsByIDs { get; } = new ErrorType(0x0000D010, ExceptionMessages.GetProductsByIDsMessage);

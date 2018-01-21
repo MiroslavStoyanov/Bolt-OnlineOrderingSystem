@@ -1,6 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Core.Repositories;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -14,6 +12,8 @@ namespace Bolt.UnitTests.Services
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Core.Repositories;
+    using Bolt.Services.ExceptionHandling.Exceptions;
 
     public class ProductsServiceTests
     {
@@ -31,21 +31,21 @@ namespace Bolt.UnitTests.Services
             result.Should().NotThrow();
         }
 
-        [Fact]
-        public async Task GetProductDetailsAsync_WhenTheRepoThrowsAnException_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(null)]
+        public async Task GetProductDetailsAsync_GivenANullProductId_ShouldThrowAnException(int productId)
         {
-            var exceptionToThrow = new ArgumentException();
             var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
-            unitOfWorkMock.Setup(x => x.GetRepository<IProductsRepository>()).Callback(() => throw exceptionToThrow);
-            const int productId = 2;
 
             var service = new ProductsService(unitOfWorkMock.Object);
 
             service
                 .Awaiting(async sut => await sut.GetProductDetailsAsync(productId))
                 .Should()
-                .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the product details. Please try again.")
+                .ThrowExactly<GetProductDetailsException>()
+                .WithMessage("Failed to get the product details, please try again.")
+                .Where(hr => hr.HResult == 0x0000D007)
                 .WithInnerException<Exception>();
         }
 
@@ -59,6 +59,64 @@ namespace Bolt.UnitTests.Services
             Action result = async () => await service.GetAllProductsAsync();
 
             result.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task GetAllProductsAsync_WhenAnUnexpectedExceptionIsThrown_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IProductsRepository>()).Callback(() => throw exceptionToThrow);
+
+            var service = new ProductsService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetAllProductsAsync())
+                .Should()
+                .ThrowExactly<GetAllProductsAsyncException>()
+                .WithMessage("Failed to get all products. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D009)
+                .WithInnerException<Exception>();
+        }
+
+        [Fact]
+        public async Task GetProductsByIDsAsync_WhenGetRepositoryThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IProductsRepository>()).Callback(() => throw exceptionToThrow);
+            IEnumerable<int> productIds = new List<int>();
+
+            var service = new ProductsService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetProductsByIDsAsync(productIds))
+                .Should()
+                .ThrowExactly<GetProductsByIDsAsyncException>()
+                .WithMessage("Failed to get the product Ids. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D010)
+                .WithInnerException<Exception>();
+        }
+
+        [Fact]
+        public async Task GetProductsByIDsAsync_WhenGetProductsByIDsAsyncThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var productRepositoryMock = new Mock<IProductsRepository>();
+            productRepositoryMock.Setup(x => x.GetProductsByIDsAsync(It.IsAny<IEnumerable<int>>()))
+                .Callback(() => throw exceptionToThrow);
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            IEnumerable<int> productIds = new List<int>();
+
+            var service = new ProductsService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetProductsByIDsAsync(productIds))
+                .Should()
+                .ThrowExactly<GetProductsByIDsAsyncException>()
+                .WithMessage("Failed to get the product Ids. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D010)
+                .WithInnerException<Exception>();
         }
 
         [Fact]
@@ -121,7 +179,7 @@ namespace Bolt.UnitTests.Services
             IUnitOfWork<IBoltDbContext> unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>().Object;
 
             const int productId = 2;
-     
+
             var service = new ProductsService(unitOfWorkMock);
 
             Action result = async () => await service.DeleteProductAsync(productId);

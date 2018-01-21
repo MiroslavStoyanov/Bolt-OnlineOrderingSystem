@@ -25,8 +25,6 @@
 
         public async Task<ProductDetailsDTO> GetProductDetailsAsync(int productId)
         {
-            Require.ThatIntIsNotNull(productId, typeof(GetProductDetailsException), ServicesErrorCodes.GetProductDetails);
-
             try
             {
                 IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
