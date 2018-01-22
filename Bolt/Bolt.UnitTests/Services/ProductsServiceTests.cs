@@ -8,6 +8,7 @@
     using Xunit;
     using FluentAssertions;
 
+    using Models;
     using DTOs.Products;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
@@ -17,6 +18,8 @@
 
     public class ProductsServiceTests
     {
+        #region GetProductDetailsAsync
+
         [Fact]
         public async Task GetProductDetailsAsync_GivenAValidScenario_ShouldNotThrowAnException()
         {
@@ -48,6 +51,9 @@
                 .Where(hr => hr.HResult == 0x0000D007)
                 .WithInnerException<Exception>();
         }
+        #endregion
+
+        #region GetAllProductsAsync
 
         [Fact]
         public async Task GetAllProductsAsync_GivenAValidScenario_ShouldNotThrowAnException()
@@ -78,6 +84,9 @@
                 .Where(hr => hr.HResult == 0x0000D009)
                 .WithInnerException<Exception>();
         }
+        #endregion
+
+        #region GetProductsByIDsAsync
 
         [Fact]
         public async Task GetProductsByIDsAsync_WhenGetRepositoryThrowsAnException_ShouldThrowAnException()
@@ -132,6 +141,50 @@
 
             result.Should().NotThrow();
         }
+        #endregion
+
+        #region AddProductAsync
+
+        [Fact]
+        public async Task AddProductAsync_GivenNullProductDTO_ShouldThrowAnException()
+        {
+            IUnitOfWork<IBoltDbContext> unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>().Object;
+
+            var service = new ProductsService(unitOfWorkMock);
+
+            service
+                .Awaiting(async sut => await sut.AddProductAsync(null))
+                .Should()
+                .ThrowExactly<AddProductAsyncException>()
+                .WithMessage("The model cannot be null or empty.")
+                .Where(hr => hr.HResult == 0x0000D012);
+        }
+
+        [Theory]
+        [InlineData("", "Some random test description")]
+        [InlineData(null, "Some random test description")]
+        [InlineData("Coffee", "")]
+        [InlineData("Coffee", null)]
+        public async Task AddProductAsync_GivenNullNameProductDTO_ShouldThrowAnException(string name, string description)
+        {
+            IUnitOfWork<IBoltDbContext> unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>().Object;
+
+            var productDto = new ProductDTO
+            {
+                Name = name,
+                Description = description
+            };
+
+            var service = new ProductsService(unitOfWorkMock);
+
+            service
+                .Awaiting(async sut => await sut.AddProductAsync(productDto))
+                .Should()
+                .ThrowExactly<AddProductAsyncException>()
+                .WithMessage("Failed to add the product to the basket. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D011)
+                .WithInnerException<Exception>();
+        }
 
         [Fact]
         public async Task AddProductAsync_GivenAValidScenario_ShouldNotThrowAnException()
@@ -151,6 +204,9 @@
 
             result.Should().NotThrow();
         }
+        #endregion
+
+        #region UpdateProductAsync
 
         [Fact]
         public async Task UpdateProductAsync_GivenAValidScenario_ShouldNotThrowAnException()
@@ -173,6 +229,88 @@
             result.Should().NotThrow();
         }
 
+        [Theory]
+        [InlineData("", "Some random description")]
+        [InlineData(null, "Some random description")]
+        [InlineData("Test", "")]
+        [InlineData("Test", null)]
+        public async Task UpdateProdcutAsync_GivenNullParameters_ShouldThrowAnException(string name, string description)
+        {
+            IUnitOfWork<IBoltDbContext> unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>().Object;
+
+            var productDto = new ProductDTO
+            {
+                Name = name,
+                Description = description
+            };
+
+            var service = new ProductsService(unitOfWorkMock);
+
+            service
+                .Awaiting(async sut => await sut.UpdateProductAsync(2, productDto))
+                .Should()
+                .ThrowExactly<UpdateProductAsyncException>()
+                .WithMessage("Failed to update the product. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D015)
+                .WithInnerException<Exception>();
+        }
+
+        [Fact]
+        public async Task UpdateProductAsync_WhenUpdateThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitofWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitofWorkMock.Setup(x => x.DbContext.Products.Update(It.IsAny<Product>()))
+                .Callback(() => throw exceptionToThrow);
+
+            var service = new ProductsService(unitofWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.UpdateProductAsync(2, new ProductDTO()))
+                .Should()
+                .ThrowExactly<UpdateProductAsyncException>()
+                .WithMessage("Failed to update the product. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D015)
+                .WithInnerException<Exception>();
+        }
+
+        [Fact]
+        public async Task UpdateProductAsync_GivenNullProductDTO_ShouldThrowAnException()
+        {
+            IUnitOfWork<IBoltDbContext> unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>().Object;
+
+            var service = new ProductsService(unitOfWorkMock);
+
+            service
+                .Awaiting(async sut => await sut.UpdateProductAsync(2, null))
+                .Should()
+                .ThrowExactly<UpdateProductAsyncException>()
+                .WithMessage("The model cannot be null or empty.")
+                .Where(hr => hr.HResult == 0x0000D014);
+        }
+        #endregion
+
+        #region DeleteProductAsync
+        
+        [Fact]
+        public async Task DeleteProductAsync_WhenRemoveThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitofWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitofWorkMock.Setup(x => x.DbContext.Products.Remove(It.IsAny<Product>()))
+                .Callback(() => throw exceptionToThrow);
+
+            var service = new ProductsService(unitofWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.DeleteProductAsync(2))
+                .Should()
+                .ThrowExactly<DeleteProductAsyncException>()
+                .WithMessage("Failed to delete the product. Please try again.")
+                .Where(hr => hr.HResult == 0x0000D016)
+                .WithInnerException<Exception>();
+        }
+
         [Fact]
         public async Task DeleteProductAsync_GivenAValidScenario_ShouldNotThrowAnException()
         {
@@ -186,5 +324,6 @@
 
             result.Should().NotThrow();
         }
+        #endregion
     }
 }
