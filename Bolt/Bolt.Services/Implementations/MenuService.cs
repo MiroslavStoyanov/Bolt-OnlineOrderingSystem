@@ -27,6 +27,7 @@
                 IMenuRepository menuRepository = this._unitOfWork.GetRepository<IMenuRepository>();
 
                 GetMenuDTO menu = await menuRepository.GetMenuAsync();
+
                 return menu;
             }
             catch (Exception ex)
