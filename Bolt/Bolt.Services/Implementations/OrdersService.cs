@@ -8,6 +8,7 @@
     using Models;
     using Contracts;
     using DTOs.Orders;
+    using Core.Validation;
     using ExceptionHandling;
     using Core.Data.Transactions;
     using Core.Data.Repositories;

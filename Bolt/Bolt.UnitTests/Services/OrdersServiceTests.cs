@@ -1,6 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Core.Repositories;
-using Bolt.Models;
-using Bolt.Services.ExceptionHandling.Exceptions;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
 
 namespace Bolt.UnitTests.Services
 {
@@ -12,11 +10,14 @@ namespace Bolt.UnitTests.Services
     using Xunit;
     using FluentAssertions;
 
+    using Models;
     using DTOs.Orders;
     using DTOs.Products;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Core.Repositories;
+    using Bolt.Services.ExceptionHandling.Exceptions;
 
     public class OrdersServiceTests
     {
@@ -98,6 +99,44 @@ namespace Bolt.UnitTests.Services
         }
         #endregion
 
+        #region GetOrderStatusAsync
+
+        [Fact]
+        public async Task GetOrderStatusAsync_WhenGetRepositoryThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IOrdersRepository>()).Callback(() => throw exceptionToThrow);
+
+            var service = new OrdersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetOrderStatusAsync(1))
+                .Should()
+                .ThrowExactly<GetOrderStatusAsyncException>()
+                .WithMessage("Failed to get the menu, please try again.")
+                .Where(hr => hr.HResult == 0x0000D004)
+                .WithInnerException<Exception>();
+        }
+        
+        [Fact]
+        public async Task GetOrderStatusAsync_WhenGetOrderStatusAsyncThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            var ordersRepositoryMock = new Mock<IOrdersRepository>();
+            ordersRepositoryMock.Setup(x => x.GetOrderStatusAsync(It.IsAny<int>()))
+                .Callback(() => throw exceptionToThrow);
+            var service = new OrdersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.GetOrderStatusAsync(1))
+                .Should()
+                .ThrowExactly<GetOrderStatusAsyncException>()
+                .WithMessage("Failed to get the menu, please try again.")
+                .Where(hr => hr.HResult == 0x0000D004)
+                .WithInnerException<Exception>();
+        }
 
         [Fact]
         public async Task GetOrderStatusAsync_GivenValidScenario_ShouldNotThrowAnException()
@@ -110,7 +149,8 @@ namespace Bolt.UnitTests.Services
 
             result.Should().NotThrow();
         }
-
+        #endregion
+     
         [Fact]
         public async Task AddOrderAsync_GivenAValidScenario_ShouldNotThrowAnException()
         {
