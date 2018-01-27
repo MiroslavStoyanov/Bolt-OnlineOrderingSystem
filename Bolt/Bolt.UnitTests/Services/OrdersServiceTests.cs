@@ -1,4 +1,8 @@
-﻿namespace Bolt.UnitTests.Services
+﻿using Bolt.Data.Contexts.Bolt.Core.Repositories;
+using Bolt.Models;
+using Bolt.Services.ExceptionHandling.Exceptions;
+
+namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -16,17 +20,7 @@
 
     public class OrdersServiceTests
     {
-        [Fact]
-        public async Task GetOrderStatusAsync_GivenValidScenario_ShouldNotThrowAnException()
-        {
-            IUnitOfWork<IBoltDbContext> unitOfWorkMock = this.GetMockedUnitOfWork().Object;
-
-            var service = new OrdersService(unitOfWorkMock);
-
-            Action result = async () => await service.GetOrderStatusAsync(1);
-
-            result.Should().NotThrow();
-        }
+        #region ReOrder
 
         [Fact]
         public async Task ReOrder_GivenAValidScenario_ShouldNotThrowAnException()
@@ -40,6 +34,81 @@
             Action action = async () => await service.ReOrder(orderId);
 
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task ReOrder_WhenGetRepositoryThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            unitOfWorkMock.Setup(x => x.GetRepository<IOrdersRepository>()).Callback(() => throw exceptionToThrow);
+
+            var service = new OrdersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.ReOrder(2))
+                .Should()
+                .ThrowExactly<ReOrderException>()
+                .WithMessage("Failed to get the menu, please try again.")
+                .Where(hr => hr.HResult == 0x0000D002)
+                .WithInnerException<Exception>();
+        }
+
+        [Fact]
+        public async Task ReOrder_WhenGetOrderThrowsAnException_ShouldThrowAnException()
+        {
+            var exceptionToThrow = new ArgumentException();
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+            var repositoryMock = new Mock<IOrdersRepository>();
+            repositoryMock.Setup(x => x.GetOrder(It.IsAny<int>())).Callback(() => throw exceptionToThrow);
+
+            var service = new OrdersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.ReOrder(2))
+                .Should()
+                .ThrowExactly<ReOrderException>()
+                .WithMessage("Failed to get the menu, please try again.")
+                .Where(hr => hr.HResult == 0x0000D002)
+                .WithInnerException<Exception>();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("SomethingReallyLongSoItWouldNotFit")]
+        public async Task ReOrder_WhenProductNameIsNull_ShouldThrowAnException(string productName)
+        {
+            var unitOfWorkMock = new Mock<IUnitOfWork<IBoltDbContext>>();
+
+            var productLine = new OrderLine
+            {
+                ProductName = productName
+            };
+
+            var service = new OrdersService(unitOfWorkMock.Object);
+
+            service
+                .Awaiting(async sut => await sut.ReOrder(2))
+                .Should()
+                .ThrowExactly<ReOrderException>()
+                .WithMessage("Failed to get the menu, please try again.")
+                .Where(hr => hr.HResult == 0x0000D002)
+                .WithInnerException<Exception>();
+        }
+        #endregion
+
+
+        [Fact]
+        public async Task GetOrderStatusAsync_GivenValidScenario_ShouldNotThrowAnException()
+        {
+            IUnitOfWork<IBoltDbContext> unitOfWorkMock = this.GetMockedUnitOfWork().Object;
+
+            var service = new OrdersService(unitOfWorkMock);
+
+            Action result = async () => await service.GetOrderStatusAsync(1);
+
+            result.Should().NotThrow();
         }
 
         [Fact]

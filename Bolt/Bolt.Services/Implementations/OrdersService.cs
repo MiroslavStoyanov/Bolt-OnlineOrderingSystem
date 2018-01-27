@@ -118,7 +118,6 @@
         {
             try
             {
-
                 IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
                 List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);

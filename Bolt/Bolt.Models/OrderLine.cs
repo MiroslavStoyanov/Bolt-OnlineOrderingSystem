@@ -9,6 +9,8 @@
 
         public int ProductId { get; set; }
 
+        [Required]
+        [MaxLength(20)]
         public string ProductName { get; set; }
 
         public int Quantity { get; set; }
