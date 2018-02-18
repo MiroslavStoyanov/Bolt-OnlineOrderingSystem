@@ -1,4 +1,6 @@
-﻿namespace Bolt.UnitTests.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.UnitTests.Web.Controllers
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,7 +16,6 @@
     using DTOs.Products;
     using Bolt.Web.Services;
     using Bolt.Web.Controllers;
-    using Bolt.Services.Contracts;
     using Bolt.Web.ViewModels.Cart;
 
     public class CartControllerTests

@@ -1,4 +1,6 @@
-﻿namespace Bolt.UnitTests.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.UnitTests.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -7,7 +9,6 @@
     using Microsoft.AspNetCore.Mvc;
 
     using DTOs.Products;
-    using Bolt.Services.Contracts;
     using Bolt.Web.Controllers;
 
     public class ProductDetailsControllerTests

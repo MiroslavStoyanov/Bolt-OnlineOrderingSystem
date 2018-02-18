@@ -14,7 +14,6 @@
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
     using Data.Contexts.Bolt.Core.Repositories;
-    using Bolt.Services.ExceptionHandling.Exceptions;
 
     public class ProductsServiceTests
     {
@@ -46,9 +45,8 @@
             service
                 .Awaiting(async sut => await sut.GetProductDetailsAsync(productId))
                 .Should()
-                .ThrowExactly<GetProductDetailsException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the product details, please try again.")
-                .Where(hr => hr.HResult == 0x0000D007)
                 .WithInnerException<Exception>();
         }
         #endregion
@@ -79,9 +77,8 @@
             service
                 .Awaiting(async sut => await sut.GetAllProductsAsync())
                 .Should()
-                .ThrowExactly<GetAllProductsAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get all products. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D009)
                 .WithInnerException<Exception>();
         }
         #endregion
@@ -101,9 +98,7 @@
             service
                 .Awaiting(async sut => await sut.GetProductsByIDsAsync(productIds))
                 .Should()
-                .ThrowExactly<GetProductsByIDsAsyncException>()
-                .WithMessage("Failed to get the product Ids. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D010)
+                .ThrowExactly<ArgumentException>()  
                 .WithInnerException<Exception>();
         }
 
@@ -122,9 +117,8 @@
             service
                 .Awaiting(async sut => await sut.GetProductsByIDsAsync(productIds))
                 .Should()
-                .ThrowExactly<GetProductsByIDsAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the product Ids. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D010)
                 .WithInnerException<Exception>();
         }
 
@@ -155,9 +149,8 @@
             service
                 .Awaiting(async sut => await sut.AddProductAsync(null))
                 .Should()
-                .ThrowExactly<AddProductAsyncException>()
-                .WithMessage("The model cannot be null or empty.")
-                .Where(hr => hr.HResult == 0x0000D012);
+                .ThrowExactly<ArgumentNullException>()
+                .WithMessage("The model cannot be null or empty.");
         }
 
         [Theory]
@@ -180,9 +173,8 @@
             service
                 .Awaiting(async sut => await sut.AddProductAsync(productDto))
                 .Should()
-                .ThrowExactly<AddProductAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to add the product to the basket. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D011)
                 .WithInnerException<Exception>();
         }
 
@@ -249,9 +241,8 @@
             service
                 .Awaiting(async sut => await sut.UpdateProductAsync(2, productDto))
                 .Should()
-                .ThrowExactly<UpdateProductAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to update the product. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D015)
                 .WithInnerException<Exception>();
         }
 
@@ -268,9 +259,8 @@
             service
                 .Awaiting(async sut => await sut.UpdateProductAsync(2, new ProductDTO()))
                 .Should()
-                .ThrowExactly<UpdateProductAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to update the product. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D015)
                 .WithInnerException<Exception>();
         }
 
@@ -284,9 +274,8 @@
             service
                 .Awaiting(async sut => await sut.UpdateProductAsync(2, null))
                 .Should()
-                .ThrowExactly<UpdateProductAsyncException>()
-                .WithMessage("The model cannot be null or empty.")
-                .Where(hr => hr.HResult == 0x0000D014);
+                .ThrowExactly<ArgumentNullException>()
+                .WithMessage("The model cannot be null or empty.");
         }
         #endregion
 
@@ -305,9 +294,8 @@
             service
                 .Awaiting(async sut => await sut.DeleteProductAsync(2))
                 .Should()
-                .ThrowExactly<DeleteProductAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to delete the product. Please try again.")
-                .Where(hr => hr.HResult == 0x0000D016)
                 .WithInnerException<Exception>();
         }
 

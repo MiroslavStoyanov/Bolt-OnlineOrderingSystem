@@ -1,17 +1,17 @@
-﻿namespace Bolt.Services.Implementations
+﻿using Bolt.Services.ExceptionHandling;
+using Bolt.Services.Interfaces;
+
+namespace Bolt.Services.Implementations
 {
     using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
 
     using Models;
-    using Contracts;
     using DTOs.Products;
     using Core.Validation;
-    using ExceptionHandling;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
-    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class ProductsService : IProductsService
@@ -35,7 +35,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetProductDetailsException(ServicesErrorCodes.GetProductDetails, ex);
+                throw new ArgumentException(ExceptionMessages.GetProductDetailsMessage, ex);
             }
         }
 
@@ -51,7 +51,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetAllProductsAsyncException(ServicesErrorCodes.GetAllProducts, ex);
+                throw new ArgumentException(ExceptionMessages.GetAllProductsMessage, ex);
             }
         }
 
@@ -67,13 +67,13 @@
             }
             catch (Exception ex)
             {
-                throw new GetProductsByIDsAsyncException(ServicesErrorCodes.GetProductsByIDs, ex);
+                throw new ArgumentException(ExceptionMessages.GetProductsByIDsMessage, ex);
             }
         }
 
         public async Task AddProductAsync(ProductDTO model)
         {
-            Require.ThatObjectIsNotNull(model, typeof(AddProductAsyncException), ServicesErrorCodes.AddProductModelNull);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.AddProductModelNullMessage);
 
             try
             {
@@ -88,14 +88,14 @@
             }
             catch (Exception ex)
             {
-                throw new AddProductAsyncException(ServicesErrorCodes.AddProduct, ex);
+                throw new ArgumentException(ExceptionMessages.AddProductMessage, ex);
             }
         }
 
         public async Task UpdateProductAsync(int productId, ProductDTO model)
         {
-            Require.ThatIntIsNotNull(productId, typeof(UpdateProductAsyncException), ServicesErrorCodes.UpdateProductNullProductId);
-            Require.ThatObjectIsNotNull(model, typeof(UpdateProductAsyncException), ServicesErrorCodes.UpdateProductNullModel);
+            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException), ExceptionMessages.UpdateProductNullProductIdMessage);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.UpdateProductNullModelMessage);
 
             try
             {
@@ -111,13 +111,13 @@
             }
             catch (Exception ex)
             {
-                throw new UpdateProductAsyncException(ServicesErrorCodes.UpdateProduct, ex);
+                throw new ArgumentException(ExceptionMessages.UpdateProductMessage, ex);
             }
         }
 
         public async Task DeleteProductAsync(int productId)
         {
-            Require.ThatIntIsNotNull(productId, typeof(DeleteProductAsyncException), ServicesErrorCodes.DeleteProductNullId);
+            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException), ExceptionMessages.DeleteProductNullIdMessage);
 
             try
             {
@@ -130,7 +130,7 @@
             }
             catch (Exception ex)
             {
-                throw new DeleteProductAsyncException(ServicesErrorCodes.DeleteProduct, ex);
+                throw new ArgumentException(ExceptionMessages.DeleteProductMessage, ex);
             }
         }
     }

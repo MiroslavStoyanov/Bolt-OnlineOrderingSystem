@@ -1,4 +1,6 @@
-﻿namespace Bolt.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -6,7 +8,6 @@
     using Microsoft.AspNetCore.Authorization;
 
     using DTOs.Products;
-    using Bolt.Services.Contracts;
 
     [Authorize]
     public class ProductDetailsController : Controller

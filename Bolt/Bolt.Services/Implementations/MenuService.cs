@@ -1,14 +1,13 @@
-﻿namespace Bolt.Services.Implementations
+﻿using Bolt.Services.ExceptionHandling;
+using Bolt.Services.Interfaces;
+
+namespace Bolt.Services.Implementations
 {
     using System;
     using System.Threading.Tasks;
-
-    using Contracts;
     using DTOs.Orders;
-    using ExceptionHandling;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
-    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class MenuService : IMenuService
@@ -32,7 +31,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetMenuAsyncException(ServicesErrorCodes.GetMenuAsync, ex);
+                throw new ArgumentException(ExceptionMessages.GetMenuAsyncMessage, ex);
             }
         }
     }

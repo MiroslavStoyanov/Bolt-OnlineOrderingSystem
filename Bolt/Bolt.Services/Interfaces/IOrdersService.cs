@@ -1,11 +1,10 @@
-﻿namespace Bolt.Services.Contracts
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Bolt.DTOs.Orders;
+using Bolt.Models;
+
+namespace Bolt.Services.Interfaces
 {
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
-
-    using Models;
-    using DTOs.Orders;
-
     public interface IOrdersService
     {
         Task<int> ReOrder(int orderId);

@@ -1,11 +1,12 @@
-﻿namespace Bolt.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.Web.Controllers
 {
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
 
     using Bolt.Models;
-    using Bolt.Services.Contracts;
 
     public class OrderTrackerController : Controller
     {

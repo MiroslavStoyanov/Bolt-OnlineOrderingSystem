@@ -8,6 +8,6 @@
 
         internal const string RequireNullExceptionTypeMessage = "ExceptionToThrow type parameter cannot be null or empty.";
 
-        internal const string RequireNullErrorTypeMessage = "Errortype parameter cannot be null or empty.";
+        internal const string RequireNullExceptionMessage = "The exception message parameter cannot be null or empty.";
     }
 }

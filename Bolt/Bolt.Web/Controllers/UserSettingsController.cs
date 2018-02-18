@@ -6,9 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
 
+    using Bolt.Services.Interfaces;
     using DTOs.Users;
     using DTOs.Orders;
-    using Bolt.Services.Contracts;
     using ViewModels.UserSettings;
 
     [Authorize]

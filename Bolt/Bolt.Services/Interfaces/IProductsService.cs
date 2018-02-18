@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Bolt.DTOs.Products;
 
-namespace Bolt.Services.Contracts
+namespace Bolt.Services.Interfaces
 {
     public interface IProductsService
     {

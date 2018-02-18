@@ -1,4 +1,6 @@
-﻿namespace Bolt.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -14,7 +16,6 @@
     using DTOs.Orders;
     using DTOs.Products;
     using ViewModels.Cart;
-    using Bolt.Services.Contracts;
 
     [Authorize]
     public class CartController : Controller

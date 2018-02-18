@@ -6,16 +6,14 @@
 
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
-
-    using Contracts;
     using DTOs.Users;
     using Models;
-    using Core.Validation;
+    using Interfaces;
     using ExceptionHandling;
+    using Core.Validation;
     using Core.Data.Repositories;
     using Core.Data.Transactions;
     using Data.Contexts.Bolt.Core;
-    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class UsersService : IUsersService
@@ -29,7 +27,7 @@
 
         public async Task<UserDTO> GetUserByUsernameAsync(string username)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(GetUserByUsernameException), ServicesErrorCodes.GetUserByUsernameNullString);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.GetUserByUsernameNullStringMessage);
 
             try
             {
@@ -41,14 +39,14 @@
             }
             catch (Exception ex)
             {
-                throw new GetUserByUsernameException(ServicesErrorCodes.GetUserByUsername, ex);
+                throw new ArgumentException(ExceptionMessages.GetUserByUsernameMessage, ex);
             }
         }
 
         public async Task EditUserAsync(string username, UserDTO model)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(EditUserAsyncException), ServicesErrorCodes.EditUserAsyncUsernameNull);
-            Require.ThatObjectIsNotNull(model, typeof(EditUserAsyncException), ServicesErrorCodes.EditUserAsyncModelNull);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.EditUserAsyncUsernameNullMessage);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.EditUserAsyncModelNullMessage);
 
             try
             {
@@ -67,18 +65,18 @@
 
                 if (commitTransaction == null || !commitTransaction.IsSuccessful)
                 {
-                    throw new EditUserAsyncException(ServicesErrorCodes.CommitTransaction, commitTransaction?.CommitException);
+                    throw new ArgumentException(ExceptionMessages.CommitTransactionMessage, commitTransaction?.CommitException);
                 }
             }
             catch (Exception ex)
             {
-                throw new EditUserAsyncException(ServicesErrorCodes.EditUser, ex);
+                throw new ArgumentException(ExceptionMessages.EditUserMessage, ex);
             }
         }
 
         public async Task<string> GetUserIdByUsernameAsync(string username)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(GetUserIdByUsernameException), ServicesErrorCodes.GetUserIdByUsernameNullUsername);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.GetUserIdByUsernameNullUsernameMessage);
 
             try
             {
@@ -93,7 +91,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetUserIdByUsernameException(ServicesErrorCodes.GetUserIdByUsername, ex);
+                throw new ArgumentException(ExceptionMessages.GetUserIdByUsernameMessage, ex);
             }
         }
     }

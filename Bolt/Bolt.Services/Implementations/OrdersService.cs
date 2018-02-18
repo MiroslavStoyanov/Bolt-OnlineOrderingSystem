@@ -6,14 +6,12 @@
     using System.Collections.Generic;
 
     using Models;
-    using Contracts;
+    using Interfaces;
     using DTOs.Orders;
-    using Core.Validation;
     using ExceptionHandling;
     using Core.Data.Transactions;
     using Core.Data.Repositories;
     using Data.Contexts.Bolt.Core;
-    using ExceptionHandling.Exceptions;
     using Data.Contexts.Bolt.Core.Repositories;
 
     public class OrdersService : IOrdersService
@@ -58,7 +56,7 @@
             }
             catch (Exception ex)
             {
-                throw new ReOrderException(ServicesErrorCodes.ReOrder, ex);
+                throw new ArgumentException(ExceptionMessages.ReOrderMessage, ex);
             }
         }
 
@@ -73,7 +71,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetOrderStatusAsyncException(ServicesErrorCodes.GetOrderStatusAsync, ex);
+                throw new ArgumentException(ExceptionMessages.GetOrderStatusAsyncMessage, ex);
             }
         }
 
@@ -111,7 +109,7 @@
             }
             catch (Exception ex)
             {
-                throw new AddOrderAsyncException(ServicesErrorCodes.AddOrderAsync, ex);
+                throw new ArgumentException(ExceptionMessages.AddOrderAsyncMessage, ex);
             }
         }
 
@@ -126,7 +124,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetOrdersForUserException(ServicesErrorCodes.GetOrdersForUser, ex);
+                throw new ArgumentException(ExceptionMessages.GetOrdersForUserMessage, ex);
             }
         }
 
@@ -141,7 +139,7 @@
             }
             catch (Exception ex)
             {
-                throw new GetOrdersForUsernameException(ServicesErrorCodes.GetOrdersForUsername, ex);
+                throw new ArgumentException(ExceptionMessages.GetOrdersForUsernameMessage, ex);
             }
         }
     }

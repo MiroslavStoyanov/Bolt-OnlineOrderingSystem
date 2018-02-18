@@ -1,10 +1,10 @@
-﻿namespace Bolt.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.Web.Controllers
 {
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-
-    using Bolt.Services.Contracts;
 
     public class OrdersController : Controller
     {

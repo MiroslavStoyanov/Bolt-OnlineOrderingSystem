@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Bolt.Services.Interfaces;
 using Bolt.Web.Filters;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,6 @@ namespace Bolt.Web
     using Bolt.Models;
     using Bolt.Web.Services;
     using Bolt.Web.Configuration;
-    using Bolt.Services.Contracts;
     using Bolt.Core.Data.Repositories;
     using Bolt.Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;

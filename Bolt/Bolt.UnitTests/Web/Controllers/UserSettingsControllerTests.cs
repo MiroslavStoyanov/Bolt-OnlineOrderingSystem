@@ -1,4 +1,6 @@
-﻿namespace Bolt.UnitTests.Web.Controllers
+﻿using Bolt.Services.Interfaces;
+
+namespace Bolt.UnitTests.Web.Controllers
 {
     using System;
     using System.Security.Claims;
@@ -14,7 +16,6 @@
     using DTOs.Users;
     using DTOs.Orders;
     using Bolt.Web.Controllers;
-    using Bolt.Services.Contracts;
     using Bolt.Web.ViewModels.UserSettings;
 
     public class UserSettingsControllerTests

@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -17,7 +15,6 @@ namespace Bolt.UnitTests.Services
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
     using Data.Contexts.Bolt.Core.Repositories;
-    using Bolt.Services.ExceptionHandling.Exceptions;
 
     public class OrdersServiceTests
     {
@@ -49,9 +46,8 @@ namespace Bolt.UnitTests.Services
             service
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
-                .ThrowExactly<ReOrderException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D002)
                 .WithInnerException<Exception>();
         }
 
@@ -68,9 +64,8 @@ namespace Bolt.UnitTests.Services
             service
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
-                .ThrowExactly<ReOrderException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D002)
                 .WithInnerException<Exception>();
         }
 
@@ -92,9 +87,8 @@ namespace Bolt.UnitTests.Services
             service
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
-                .ThrowExactly<ReOrderException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D002)
                 .WithInnerException<Exception>();
         }
         #endregion
@@ -113,9 +107,8 @@ namespace Bolt.UnitTests.Services
             service
                 .Awaiting(async sut => await sut.GetOrderStatusAsync(1))
                 .Should()
-                .ThrowExactly<GetOrderStatusAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D004)
                 .WithInnerException<Exception>();
         }
         
@@ -132,9 +125,7 @@ namespace Bolt.UnitTests.Services
             service
                 .Awaiting(async sut => await sut.GetOrderStatusAsync(1))
                 .Should()
-                .ThrowExactly<GetOrderStatusAsyncException>()
-                .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D004)
+                .ThrowExactly<ArgumentException>()
                 .WithInnerException<Exception>();
         }
 

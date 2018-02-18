@@ -11,70 +11,70 @@
 
     public static class Require
     {
-          public static void ThatArgument(bool isValid, Type exceptionType, ErrorType errorType)
+          public static void ThatArgument(bool isValid, Type exceptionType, string exceptionMessage)
         {
             if (isValid)
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatObjectIsNotNull(object argument, Type exceptionType, ErrorType errorType)
+        public static void ThatObjectIsNotNull(object argument, Type exceptionType, string exceptionMessage)
         {
             if (argument != null)
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatStringIsNotNullOrEmpty(string argument, Type exceptionType, ErrorType errorType)
+        public static void ThatStringIsNotNullOrEmpty(string argument, Type exceptionType, string exceptionMessage)
         {
             if (!string.IsNullOrEmpty(argument))
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatGuidIsNotNullOrEmpty(Guid? guid, Type exceptionType, ErrorType errorType)
+        public static void ThatGuidIsNotNullOrEmpty(Guid? guid, Type exceptionType, string exceptionMessage)
         {
             if (guid != null && guid != new Guid())
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatIntIsNotNull(int? number, Type exceptionType, ErrorType errorType)
+        public static void ThatIntIsNotNull(int? number, Type exceptionType, string exceptionMessage)
         {
             if (number != null)
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatCollectionIsNotNullAndEmpty<TCollectionType>(ICollection<TCollectionType> elements, Type exceptionType, ErrorType errorType)
+        public static void ThatCollectionIsNotNullAndEmpty<TCollectionType>(ICollection<TCollectionType> elements, Type exceptionType, string exceptionMessage)
         {
             if (elements != null && elements.Count != 0)
             {
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        public static void ThatStringFollowsRegexPattern(string value, string pattern, Type exceptionType, ErrorType errorType)
+        public static void ThatStringFollowsRegexPattern(string value, string pattern, Type exceptionType, string exceptionMessage)
         {
-            ThatStringIsNotNullOrEmpty(value, typeof(ThatStringFollowsRegexPatternValidationException), CoreErrorCodes.ValueNull);
-            ThatStringIsNotNullOrEmpty(pattern, typeof(ThatStringFollowsRegexPatternValidationException), CoreErrorCodes.ValueNull);
+            ThatStringIsNotNullOrEmpty(value, typeof(ThatStringFollowsRegexPatternValidationException), ExceptionMessages.ValueNullMessage);
+            ThatStringIsNotNullOrEmpty(pattern, typeof(ThatStringFollowsRegexPatternValidationException), ExceptionMessages.ValueNullMessage);
 
             var regex = new Regex(pattern);
 
@@ -83,26 +83,25 @@
                 return;
             }
 
-            ThrowException(exceptionType, errorType);
+            ThrowException(exceptionType, exceptionMessage);
         }
 
-        private static void ThrowException(Type exceptionType, ErrorType errorType)
+        private static void ThrowException(Type exceptionType, string exceptionMessage)
         {
             if (exceptionType == null)
             {
                 throw new RequireNullExceptionException(CoreErrorCodes.RequireNullExceptionType);
             }
 
-            if (errorType == null)
+            if (exceptionMessage == null)
             {
-                throw new RequireNullErrorTypeException(CoreErrorCodes.RequireNullErrorType);
+                throw new ArgumentException(ExceptionMessages.RequireNullExceptionMessage);
             }
 
-            // TODO: Improve this code, add type verification for constructors
             ConstructorInfo ctrs = exceptionType
                 .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                 .First(n => n.GetParameters().Length == 1);
-            var ex = (Exception)ctrs.Invoke(new object[] { errorType });
+            var ex = (Exception)ctrs.Invoke(new object[] { exceptionMessage });
 
             throw ex;
         }

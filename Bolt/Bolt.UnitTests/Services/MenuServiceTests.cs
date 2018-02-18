@@ -11,7 +11,6 @@
     using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
     using Data.Contexts.Bolt.Core.Repositories;
-    using Bolt.Services.ExceptionHandling.Exceptions;
 
     public class MenuServiceTests
     {
@@ -43,9 +42,8 @@
             service
                 .Awaiting(async sut => await sut.GetMenuAsync())
                 .Should()
-                .ThrowExactly<GetMenuAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D001)
                 .WithInnerException<Exception>();
         }
 
@@ -63,9 +61,8 @@
             service
                 .Awaiting(async sut => await sut.GetMenuAsync())
                 .Should()
-                .ThrowExactly<GetMenuAsyncException>()
+                .ThrowExactly<ArgumentException>()
                 .WithMessage("Failed to get the menu, please try again.")
-                .Where(hr => hr.HResult == 0x0000D001)
                 .WithInnerException<Exception>();
         }
         #endregion

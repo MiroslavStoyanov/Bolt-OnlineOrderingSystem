@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Bolt.DTOs.Users;
 
-namespace Bolt.Services.Contracts
+namespace Bolt.Services.Interfaces
 {
     public interface IUsersService
     {
