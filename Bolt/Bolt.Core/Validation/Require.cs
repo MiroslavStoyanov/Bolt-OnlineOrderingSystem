@@ -6,7 +6,6 @@
     using System.Collections.Generic;
 
     using ExceptionHandling;
-    using ExceptionHandling.Exceptions;
     using System.Text.RegularExpressions;
 
     public static class Require
@@ -73,8 +72,8 @@
 
         public static void ThatStringFollowsRegexPattern(string value, string pattern, Type exceptionType, string exceptionMessage)
         {
-            ThatStringIsNotNullOrEmpty(value, typeof(ThatStringFollowsRegexPatternValidationException), ExceptionMessages.ValueNullMessage);
-            ThatStringIsNotNullOrEmpty(pattern, typeof(ThatStringFollowsRegexPatternValidationException), ExceptionMessages.ValueNullMessage);
+            ThatStringIsNotNullOrEmpty(value, typeof(ArgumentException), ExceptionMessages.ValueNullMessage);
+            ThatStringIsNotNullOrEmpty(pattern, typeof(ArgumentException), ExceptionMessages.ValueNullMessage);
 
             var regex = new Regex(pattern);
 
@@ -90,7 +89,7 @@
         {
             if (exceptionType == null)
             {
-                throw new RequireNullExceptionException(CoreErrorCodes.RequireNullExceptionType);
+                throw new ArgumentNullException(ExceptionMessages.RequireNullExceptionTypeMessage);
             }
 
             if (exceptionMessage == null)

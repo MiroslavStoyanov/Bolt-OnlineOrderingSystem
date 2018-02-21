@@ -1,15 +1,13 @@
-﻿using Bolt.Models;
-using Bolt.Data.Extensions;
+﻿using System;
 using Bolt.Core.Data.Helpers;
-using Bolt.Data.Contexts.Bolt.Core;
+using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Extensions;
+using Bolt.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Bolt.Data.Contexts.Bolt.Persistence
+namespace Bolt.Data.Contexts.Bolt.Implementations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
     public class BoltDbContext : IdentityDbContext<User>, IBoltDbContext
     {
         public BoltDbContext(DbContextOptions<BoltDbContext> options)

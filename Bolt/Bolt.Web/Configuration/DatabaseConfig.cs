@@ -1,11 +1,9 @@
 ﻿namespace Bolt.Web.Configuration
 {
     using System;
-
+    using Data.Contexts.Bolt.Implementations;
     using Microsoft.Extensions.DependencyInjection;
-
     using Data.DatabaseConfiguration;
-    using Data.Contexts.Bolt.Persistence;
     using EntityFrameworkCore.Initializers;
     using EntityFrameworkCore.Initializers.Extensions;
 

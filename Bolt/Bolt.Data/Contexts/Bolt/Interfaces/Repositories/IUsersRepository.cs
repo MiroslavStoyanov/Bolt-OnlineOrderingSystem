@@ -2,7 +2,7 @@
 using Bolt.Core.Data.Repositories;
 using Bolt.Models;
 
-namespace Bolt.Data.Contexts.Bolt.Core.Repositories
+namespace Bolt.Data.Contexts.Bolt.Interfaces.Repositories
 {
     public interface IUsersRepository : IEFRepository<User>
     {

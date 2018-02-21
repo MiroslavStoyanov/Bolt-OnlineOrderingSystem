@@ -1,8 +1,8 @@
-﻿namespace Bolt.EntityFrameworkCore.Initializers.Extensions
+﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
+
+namespace Bolt.EntityFrameworkCore.Initializers.Extensions
 {
     using Microsoft.EntityFrameworkCore;
-
-    using Contracts;
 
     public static class DbContextExtensions
     {

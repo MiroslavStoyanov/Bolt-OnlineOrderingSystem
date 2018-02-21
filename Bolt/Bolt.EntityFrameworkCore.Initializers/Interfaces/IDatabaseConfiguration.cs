@@ -1,4 +1,4 @@
-﻿namespace Bolt.EntityFrameworkCore.Initializers.Contracts
+﻿namespace Bolt.EntityFrameworkCore.Initializers.Interfaces
 {
     public interface IDatabaseConfiguration<in TDbContext>
     {

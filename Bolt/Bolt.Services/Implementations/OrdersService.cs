@@ -1,4 +1,7 @@
-﻿namespace Bolt.Services.Implementations
+﻿using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+
+namespace Bolt.Services.Implementations
 {
     using System;
     using System.Linq;
@@ -11,8 +14,6 @@
     using ExceptionHandling;
     using Core.Data.Transactions;
     using Core.Data.Repositories;
-    using Data.Contexts.Bolt.Core;
-    using Data.Contexts.Bolt.Core.Repositories;
 
     public class OrdersService : IOrdersService
     {

@@ -1,4 +1,4 @@
-﻿namespace Bolt.Data.Contexts.Bolt.Core
+﻿namespace Bolt.Data.Contexts.Bolt.Interfaces
 {
     public interface IBoltDbContextConfiguration
     {

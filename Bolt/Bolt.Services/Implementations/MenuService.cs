@@ -1,4 +1,6 @@
-﻿using Bolt.Services.ExceptionHandling;
+﻿using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+using Bolt.Services.ExceptionHandling;
 using Bolt.Services.Interfaces;
 
 namespace Bolt.Services.Implementations
@@ -7,8 +9,6 @@ namespace Bolt.Services.Implementations
     using System.Threading.Tasks;
     using DTOs.Orders;
     using Core.Data.Repositories;
-    using Data.Contexts.Bolt.Core;
-    using Data.Contexts.Bolt.Core.Repositories;
 
     public class MenuService : IMenuService
     {

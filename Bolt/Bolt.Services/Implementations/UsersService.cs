@@ -1,4 +1,7 @@
-﻿namespace Bolt.Services.Implementations
+﻿using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+
+namespace Bolt.Services.Implementations
 {
     using System;
     using System.Linq;
@@ -13,8 +16,6 @@
     using Core.Validation;
     using Core.Data.Repositories;
     using Core.Data.Transactions;
-    using Data.Contexts.Bolt.Core;
-    using Data.Contexts.Bolt.Core.Repositories;
 
     public class UsersService : IUsersService
     {

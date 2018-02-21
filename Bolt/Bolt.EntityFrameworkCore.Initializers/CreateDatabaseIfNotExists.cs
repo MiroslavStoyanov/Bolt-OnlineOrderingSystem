@@ -1,4 +1,4 @@
-﻿using Bolt.EntityFrameworkCore.Initializers.Contracts;
+﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bolt.EntityFrameworkCore.Initializers

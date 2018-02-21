@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contexts\Bolt\Persistence\EntityConfigurations\" />
+    <Folder Include="Contexts\Bolt\Implementations\EntityConfigurations\" />
   </ItemGroup>
 
 </Project>

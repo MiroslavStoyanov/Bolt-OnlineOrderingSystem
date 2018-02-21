@@ -1,10 +1,9 @@
 ﻿using Bolt.Core.Data.Contexts;
 using Bolt.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Bolt.Data.Contexts.Bolt.Core
+namespace Bolt.Data.Contexts.Bolt.Interfaces
 {
-    using Microsoft.EntityFrameworkCore;
-
     public interface IBoltDbContext : IEFDbContext
     {
         DbSet<User> Users { get; set; }

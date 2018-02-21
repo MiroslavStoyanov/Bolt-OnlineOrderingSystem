@@ -1,11 +1,11 @@
-﻿namespace Bolt.Data.DatabaseConfiguration
+﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
+
+namespace Bolt.Data.DatabaseConfiguration
 {
     using System.Linq;
     using System.Collections.Generic;
-
+    using Contexts.Bolt.Implementations;
     using Models;
-    using Contexts.Bolt.Persistence;
-    using EntityFrameworkCore.Initializers.Contracts;
 
     public class BoltDatabaseConfiguration : IDatabaseConfiguration<BoltDbContext>
     {

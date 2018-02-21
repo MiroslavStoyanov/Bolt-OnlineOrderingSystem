@@ -1,9 +1,10 @@
-﻿namespace Bolt.EntityFrameworkCore.Initializers
+﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
+
+namespace Bolt.EntityFrameworkCore.Initializers
 {
     using Microsoft.EntityFrameworkCore;
 
     using Managers;
-    using Contracts;
 
     public class MigrateDatabaseToLatestVersion<TDbContext> : IDatabaseInitializer<TDbContext>
         where TDbContext : DbContext

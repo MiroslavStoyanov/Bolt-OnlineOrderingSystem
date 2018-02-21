@@ -1,11 +1,9 @@
-﻿using System.Net;
-using Bolt.Services.Interfaces;
-using Bolt.Web.Filters;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
+﻿using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
 
 namespace Bolt.Web
 {
+    using System.Net;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
@@ -15,16 +13,17 @@ namespace Bolt.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Authentication.Cookies;
-
+    using Bolt.Data.Contexts.Bolt.Implementations;
+    using Bolt.Data.Contexts.Bolt.Implementations.Repositories;
+    using Bolt.Services.Interfaces;
+    using Bolt.Web.Filters;
+    using Microsoft.AspNetCore.Diagnostics;
+    using Microsoft.AspNetCore.Http;
     using Bolt.Models;
     using Bolt.Web.Services;
     using Bolt.Web.Configuration;
     using Bolt.Core.Data.Repositories;
-    using Bolt.Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
-    using Bolt.Data.Contexts.Bolt.Persistence;
-    using Bolt.Data.Contexts.Bolt.Core.Repositories;
-    using Bolt.Data.Contexts.Bolt.Persistence.Repositories;
 
     public class Startup
     {

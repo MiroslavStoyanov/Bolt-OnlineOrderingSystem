@@ -6,8 +6,6 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    using Core.ExceptionHandling.Exceptions.Base;
-
     public class CustomExceptionFilter : IExceptionFilter
     {
         public void OnException(ExceptionContext context)
@@ -17,20 +15,10 @@
 
             Type exceptionType = context.Exception.GetType();
 
-            if (exceptionType == typeof(AuthorizationException) && exceptionType.IsAssignableFrom(typeof(ExternalException)))
-            {
-                message = "Unauthorized Access";
-                status = HttpStatusCode.Unauthorized;
-            }
-            else if (exceptionType == typeof(NotImplementedException))
+            if (exceptionType == typeof(NotImplementedException))
             {
                 message = "A server error occurred.";
                 status = HttpStatusCode.NotImplemented;
-            }
-            else if (exceptionType == typeof(InternalException) && exceptionType.IsAssignableFrom(typeof(BaseException)))
-            {
-                message = context.Exception.ToString();
-                status = HttpStatusCode.InternalServerError;
             }
             else
             {

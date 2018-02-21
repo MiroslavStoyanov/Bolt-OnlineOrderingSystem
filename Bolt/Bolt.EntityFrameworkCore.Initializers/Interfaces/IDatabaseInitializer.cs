@@ -1,7 +1,7 @@
-﻿namespace Bolt.EntityFrameworkCore.Initializers.Contracts
-{
-    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Bolt.EntityFrameworkCore.Initializers.Interfaces
+{
     public interface IDatabaseInitializer<in TDbContext>
         where TDbContext : DbContext
     {

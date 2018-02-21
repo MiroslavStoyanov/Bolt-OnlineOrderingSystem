@@ -1,8 +1,8 @@
-﻿namespace Bolt.EntityFrameworkCore.Initializers
+﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
+
+namespace Bolt.EntityFrameworkCore.Initializers
 {
     using Microsoft.EntityFrameworkCore;
-
-    using Contracts;
 
     public class DropCreateDatabaseAlways<TDbContext> : IDatabaseInitializer<TDbContext>
         where TDbContext : DbContext

@@ -1,4 +1,7 @@
-﻿namespace Bolt.UnitTests.Services
+﻿using Bolt.Data.Contexts.Bolt.Interfaces;
+using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+
+namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
@@ -11,9 +14,7 @@
     using Models;
     using DTOs.Products;
     using Core.Data.Repositories;
-    using Data.Contexts.Bolt.Core;
     using Bolt.Services.Implementations;
-    using Data.Contexts.Bolt.Core.Repositories;
 
     public class ProductsServiceTests
     {
