@@ -40,10 +40,10 @@
             var service = new UsersService(unitOfWorkMock.Object);
 
             service
-                .Awaiting(async sut => await sut.GetUserByUsernameAsync(null))
+                .Awaiting(async sut => await sut.GetUserByUsernameAsync("someUserName"))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the user by username.")
+                .WithMessage("Failed to get the user by username. Please try again.")
                 .WithInnerException<Exception>();
         } 
 
@@ -58,8 +58,7 @@
                 .Awaiting(async sut => await sut.GetUserByUsernameAsync(null))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the user by username.")
-                .WithInnerException<Exception>();
+                .WithMessage("The ussername cannot be null or empty.");
         }
 
         [Fact]
@@ -91,8 +90,7 @@
                 .Awaiting(async sut => await sut.EditUserAsync(null, null))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Something went wrong. Failed to edit the user")
-                .WithInnerException<Exception>();
+                .WithMessage("The username cannot be null or empty.");
         } 
 
         [Fact]
@@ -107,8 +105,7 @@
                 .Awaiting(async sut => await sut.EditUserAsync(null, userDto))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Something went wrong. Failed to edit the user")
-                .WithInnerException<Exception>();
+                .WithMessage("The username cannot be null or empty.");
         } 
 
         [Fact]
@@ -121,9 +118,8 @@
             service
                 .Awaiting(async sut => await sut.EditUserAsync("username", null))
                 .Should()
-                .ThrowExactly<ArgumentException>()
-                .WithMessage("Something went wrong. Failed to edit the user")
-                .WithInnerException<Exception>();
+                .ThrowExactly<ArgumentNullException>()
+                .WithMessage("The User DTO model cannot be null or empty.");
         } 
 
         [Fact]
@@ -151,10 +147,10 @@
             var service = new UsersService(unitOfWorkMock.Object);
 
             service
-                .Awaiting(async sut => await sut.GetUserIdByUsernameAsync(null))
+                .Awaiting(async sut => await sut.GetUserIdByUsernameAsync("someUserName"))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the user Id by the selected username")
+                .WithMessage("Failed to get the username given the current user Id. Please try again.")
                 .WithInnerException<Exception>();
 
         }
@@ -170,8 +166,7 @@
                 .Awaiting(async sut => await sut.GetUserIdByUsernameAsync(null))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the user Id by the selected username")
-                .WithInnerException<Exception>();
+                .WithMessage("The username cannot be null or empty.");
 
         }
     }

@@ -47,7 +47,7 @@
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the menu, please try again.")
+                .WithMessage("Failed to re-order, please try again.")
                 .WithInnerException<Exception>();
         }
 
@@ -65,7 +65,7 @@
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the menu, please try again.")
+                .WithMessage("Failed to re-order, please try again.")
                 .WithInnerException<Exception>();
         }
 
@@ -88,7 +88,7 @@
                 .Awaiting(async sut => await sut.ReOrder(2))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the menu, please try again.")
+                .WithMessage("Failed to re-order, please try again.")
                 .WithInnerException<Exception>();
         }
         #endregion
@@ -108,7 +108,7 @@
                 .Awaiting(async sut => await sut.GetOrderStatusAsync(1))
                 .Should()
                 .ThrowExactly<ArgumentException>()
-                .WithMessage("Failed to get the menu, please try again.")
+                .WithMessage("Failed to get the order status, please try again.")
                 .WithInnerException<Exception>();
         }
         
