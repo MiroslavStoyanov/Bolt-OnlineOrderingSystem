@@ -1,22 +1,19 @@
-﻿using Bolt.Services.Interfaces;
-
-namespace Bolt.UnitTests.Web.Controllers
+﻿namespace Bolt.UnitTests.Web.Controllers
 {
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Collections.Generic;
-
     using Moq;
     using Xunit;
     using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Http;
-
     using DTOs.Users;
     using DTOs.Orders;
     using Bolt.Web.Controllers;
     using Bolt.Web.ViewModels.UserSettings;
+    using Bolt.Services.Interfaces;
 
     public class UserSettingsControllerTests
     {

@@ -1,18 +1,15 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
-
     using Moq;
     using Xunit;
     using FluentAssertions;
-
     using DTOs.Users;
     using Core.Data.Repositories;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Interfaces;
+    using Data.Contexts.Bolt.Interfaces.Repositories;
 
     public class UsersServiceTests
     {
@@ -120,7 +117,7 @@ namespace Bolt.UnitTests.Services
                 .Awaiting(async sut => await sut.EditUserAsync("username", null))
                 .Should()
                 .ThrowExactly<ArgumentNullException>()
-                .WithMessage("The User DTO model cannot be null or empty.");
+                .WithMessage("Value cannot be null.\r\nParameter name: The User DTO model cannot be null or empty.");
         } 
 
         [Fact]

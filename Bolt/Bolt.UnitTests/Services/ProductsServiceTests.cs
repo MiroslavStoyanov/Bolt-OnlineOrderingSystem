@@ -1,20 +1,17 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
-
     using Moq;
     using Xunit;
     using FluentAssertions;
-
     using Models;
     using DTOs.Products;
     using Core.Data.Repositories;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Interfaces;
+    using Data.Contexts.Bolt.Interfaces.Repositories;
 
     public class ProductsServiceTests
     {
@@ -151,7 +148,7 @@ namespace Bolt.UnitTests.Services
                 .Awaiting(async sut => await sut.AddProductAsync(null))
                 .Should()
                 .ThrowExactly<ArgumentNullException>()
-                .WithMessage("The model cannot be null or empty.");
+                .WithMessage("Value cannot be null.\r\nParameter name: The model cannot be null or empty.");
         }
 
         [Theory]
@@ -276,7 +273,7 @@ namespace Bolt.UnitTests.Services
                 .Awaiting(async sut => await sut.UpdateProductAsync(2, null))
                 .Should()
                 .ThrowExactly<ArgumentNullException>()
-                .WithMessage("The model cannot be null or empty.");
+                .WithMessage("Value cannot be null.\r\nParameter name: The model cannot be null or empty.");
         }
         #endregion
 

@@ -1,15 +1,12 @@
-﻿using Bolt.Services.Interfaces;
-
-namespace Bolt.UnitTests.Web.Controllers
+﻿namespace Bolt.UnitTests.Web.Controllers
 {
     using System.Threading.Tasks;
-
     using Moq;
     using Xunit;
     using Microsoft.AspNetCore.Mvc;
-
     using DTOs.Products;
     using Bolt.Web.Controllers;
+    using Bolt.Services.Interfaces;
 
     public class ProductDetailsControllerTests
     {

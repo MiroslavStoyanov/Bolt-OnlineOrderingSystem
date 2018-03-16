@@ -1,21 +1,18 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-
-namespace Bolt.UnitTests.Services
+﻿namespace Bolt.UnitTests.Services
 {
     using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
-
     using Moq;
     using Xunit;
     using FluentAssertions;
-
     using Models;
     using DTOs.Orders;
     using DTOs.Products;
     using Core.Data.Repositories;
     using Bolt.Services.Implementations;
+    using Data.Contexts.Bolt.Interfaces;
+    using Data.Contexts.Bolt.Interfaces.Repositories;
 
     public class OrdersServiceTests
     {
