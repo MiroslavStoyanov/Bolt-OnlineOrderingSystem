@@ -17,7 +17,7 @@
         [MaxLength(30)]
         public string Name { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(500)]
         public string Description { get; set; }
 
         [Required]
