@@ -1,7 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-
-namespace Bolt.Services.Implementations
+﻿namespace Bolt.Services.Implementations
 {
     using System;
     using System.Linq;
@@ -14,6 +11,9 @@ namespace Bolt.Services.Implementations
     using ExceptionHandling;
     using Core.Data.Transactions;
     using Core.Data.Repositories;
+    using Bolt.Data.Contexts.Bolt.Interfaces;
+    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.Core.Validation;
 
     public class OrdersService : IOrdersService
     {
@@ -78,10 +78,7 @@ namespace Bolt.Services.Implementations
 
         public async Task<int> AddOrderAsync(CreateOrderDTO orderDTO)
         {
-            if (orderDTO.Products == null)
-            {
-                throw new ArgumentException("The products in the Order DTO are null.");
-            }
+            Require.ThatObjectIsNotNull(orderDTO.Products, typeof(ArgumentException), ExceptionMessages.AddOrderAsyncProductsNullMessage);
 
             try
             {

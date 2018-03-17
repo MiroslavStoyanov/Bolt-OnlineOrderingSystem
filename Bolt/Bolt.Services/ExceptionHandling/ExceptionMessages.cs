@@ -49,5 +49,7 @@
         internal const string GetUserIdByUsernameNullUsernameMessage = "The username cannot be null or empty.";
 
         internal const string GetUserIdByUsernameMessage = "Failed to get the username given the current user Id. Please try again.";
+
+        internal const string AddOrderAsyncProductsNullMessage = "The products in the Order DTO are null.";
     }
 }

@@ -1,9 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-using Bolt.Services.ExceptionHandling;
-using Bolt.Services.Interfaces;
-
-namespace Bolt.Services.Implementations
+﻿namespace Bolt.Services.Implementations
 {
     using System;
     using System.Threading.Tasks;
@@ -13,6 +8,10 @@ namespace Bolt.Services.Implementations
     using DTOs.Products;
     using Core.Validation;
     using Core.Data.Repositories;
+    using Bolt.Data.Contexts.Bolt.Interfaces;
+    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.Services.ExceptionHandling;
+    using Bolt.Services.Interfaces;
 
     public class ProductsService : IProductsService
     {
