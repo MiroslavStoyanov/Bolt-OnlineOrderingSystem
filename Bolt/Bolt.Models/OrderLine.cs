@@ -10,7 +10,7 @@
         public int ProductId { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string ProductName { get; set; }
 
         public int Quantity { get; set; }

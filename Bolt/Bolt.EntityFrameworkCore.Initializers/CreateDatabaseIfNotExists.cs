@@ -1,10 +1,10 @@
-﻿using Bolt.EntityFrameworkCore.Initializers.Interfaces;
-using Microsoft.EntityFrameworkCore;
-
-namespace Bolt.EntityFrameworkCore.Initializers
+﻿namespace Bolt.EntityFrameworkCore.Initializers
 {
+    using Bolt.EntityFrameworkCore.Initializers.Interfaces;
+    using Microsoft.EntityFrameworkCore;
+
     public class CreateDatabaseIfNotExists<TDbContext> : IDatabaseInitializer<TDbContext>
-        where TDbContext : DbContext
+           where TDbContext : DbContext
     {
         private readonly IDatabaseConfiguration<TDbContext> _initializerConfiguration;
 
@@ -15,8 +15,15 @@ namespace Bolt.EntityFrameworkCore.Initializers
 
         public void InitializeDatabase(TDbContext dbContext)
         {
-            dbContext.Database.EnsureCreated();
-            this._initializerConfiguration.Seed(dbContext);
+            if (dbContext.Database != null)
+            {
+                this._initializerConfiguration.Seed(dbContext);
+            }
+            else
+            {
+                dbContext.Database.EnsureCreated();
+                this._initializerConfiguration.Seed(dbContext);
+            }
         }
     }
 }
