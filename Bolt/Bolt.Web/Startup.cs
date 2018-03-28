@@ -24,6 +24,7 @@ namespace Bolt.Web
     using Bolt.Web.Configuration;
     using Bolt.Core.Data.Repositories;
     using Bolt.Services.Implementations;
+    using Microsoft.AspNetCore.Rewrite;
 
     public class Startup
     {
@@ -50,19 +51,22 @@ namespace Bolt.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
-            services.AddMvc(options => options.Filters
-                .Add<AutoValidateAntiforgeryTokenAttribute>())
-                .AddRazorPagesOptions(options =>
-                {
-                    options.Conventions.AuthorizeFolder("/Account/Manage");
-                    options.Conventions.AuthorizePage("/Account/Logout");
-                });
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 
             services.AddMvc(
-                config => { 
-                    config.Filters.Add(typeof(CustomExceptionFilter));
-                }
-            );
+            options =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilter));
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+
+            }).AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Account/Manage");
+                options.Conventions.AuthorizePage("/Account/Logout");
+            });
 
             #region Bolt.Core.Data
 
@@ -124,6 +128,10 @@ namespace Bolt.Web
                     }
                 );
             }
+
+            RewriteOptions rewriteOptions = new RewriteOptions().AddRedirectToHttps();
+
+            app.UseRewriter(rewriteOptions);
 
             app.UseStaticFiles();
 
