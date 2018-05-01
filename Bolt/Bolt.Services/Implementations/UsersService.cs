@@ -94,5 +94,7 @@
                 throw new ArgumentException(ExceptionMessages.GetUserIdByUsernameMessage, ex);
             }
         }
+
+        //TODO: Follow the pipeline and add the logic for the admin user 
     }
 }

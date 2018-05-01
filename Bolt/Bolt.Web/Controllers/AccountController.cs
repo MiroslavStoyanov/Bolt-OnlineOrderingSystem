@@ -250,7 +250,7 @@
         {
             await this._signInManager.SignOutAsync();
             this._logger.LogInformation("User logged out.");
-            return this.RedirectToAction("Index", "Identity");
+            return this.RedirectToAction("All", "Identity");
         }
 
         [HttpPost]
@@ -339,7 +339,7 @@
         {
             if (userId == null || code == null)
             {
-                return this.RedirectToAction("Index", "Identity");
+                return this.RedirectToAction("All", "Identity");
             }
             User user = await this._userManager.FindByIdAsync(userId);
             if (user == null)
@@ -457,7 +457,7 @@
             {
                 return this.Redirect(returnUrl);
             }
-            return this.RedirectToAction("Index", "Identity");
+            return this.RedirectToAction("All", "Identity");
         }
 
         #endregion

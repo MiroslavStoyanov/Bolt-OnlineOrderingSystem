@@ -154,7 +154,7 @@
             {
                 routes.MapRoute(
                     "default",
-                    "{controller=Store}/{action=Index}/{id?}");
+                    "{controller=Store}/{action=All}/{id?}");
             });
         }
     }

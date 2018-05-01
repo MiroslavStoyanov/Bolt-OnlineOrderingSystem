@@ -8,7 +8,7 @@ namespace Bolt.Web.Views.Manage
     {
         public static string ActivePageKey => "ActivePage";
 
-        public static string Index => "Index";
+        public static string Index => "All";
 
         public static string ChangePassword => "ChangePassword";
 
