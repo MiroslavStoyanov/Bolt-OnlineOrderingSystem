@@ -1,19 +1,19 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Bolt.Models;
-using Bolt.Web.Extensions;
-using Bolt.Web.Models.AccountViewModels;
-using Bolt.Web.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
-
-namespace Bolt.Web.Controllers
+﻿namespace Bolt.Web.Controllers
 {
+    using System;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Bolt.Models;
+    using Bolt.Web.Extensions;
+    using Bolt.Web.Models.AccountViewModels;
+    using Bolt.Web.Services;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
@@ -68,7 +68,7 @@ namespace Bolt.Web.Controllers
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return this.RedirectToAction(nameof(LoginWith2fa), new {returnUrl, model.RememberMe});
+                    return this.RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
@@ -95,7 +95,7 @@ namespace Bolt.Web.Controllers
                 throw new ApplicationException($"Unable to load two-factor authentication user.");
             }
 
-            var model = new LoginWith2faViewModel {RememberMe = rememberMe};
+            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
             this.ViewData["ReturnUrl"] = returnUrl;
 
             return this.View(model);
@@ -250,7 +250,7 @@ namespace Bolt.Web.Controllers
         {
             await this._signInManager.SignOutAsync();
             this._logger.LogInformation("User logged out.");
-            return this.RedirectToAction("Index", "Store");
+            return this.RedirectToAction("Index", "Identity");
         }
 
         [HttpPost]
@@ -259,7 +259,7 @@ namespace Bolt.Web.Controllers
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            string redirectUrl = this.Url.Action(nameof(this.ExternalLoginCallback), "Account", new {returnUrl});
+            string redirectUrl = this.Url.Action(nameof(this.ExternalLoginCallback), "Account", new { returnUrl });
             AuthenticationProperties properties =
                 this._signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return this.Challenge(properties, provider);
@@ -296,7 +296,7 @@ namespace Bolt.Web.Controllers
             this.ViewData["ReturnUrl"] = returnUrl;
             this.ViewData["LoginProvider"] = info.LoginProvider;
             string email = info.Principal.FindFirstValue(ClaimTypes.Email);
-            return this.View("ExternalLogin", new ExternalLoginViewModel {Email = email});
+            return this.View("ExternalLogin", new ExternalLoginViewModel { Email = email });
         }
 
         [HttpPost]
@@ -313,7 +313,7 @@ namespace Bolt.Web.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new User {UserName = model.Email, Email = model.Email};
+                var user = new User { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await this._userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -339,7 +339,7 @@ namespace Bolt.Web.Controllers
         {
             if (userId == null || code == null)
             {
-                return this.RedirectToAction("Index", "Store");
+                return this.RedirectToAction("Index", "Identity");
             }
             User user = await this._userManager.FindByIdAsync(userId);
             if (user == null)
@@ -399,7 +399,7 @@ namespace Bolt.Web.Controllers
             {
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
-            var model = new ResetPasswordViewModel {Code = code};
+            var model = new ResetPasswordViewModel { Code = code };
             return this.View(model);
         }
 
@@ -457,7 +457,7 @@ namespace Bolt.Web.Controllers
             {
                 return this.Redirect(returnUrl);
             }
-            return this.RedirectToAction("Index", "Store");
+            return this.RedirectToAction("Index", "Identity");
         }
 
         #endregion

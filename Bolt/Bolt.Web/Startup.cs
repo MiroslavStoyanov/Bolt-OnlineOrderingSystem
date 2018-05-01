@@ -1,7 +1,4 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-
-namespace Bolt.Web
+﻿namespace Bolt.Web
 {
     using System.Net;
     using AutoMapper;
@@ -25,6 +22,9 @@ namespace Bolt.Web
     using Bolt.Core.Data.Repositories;
     using Bolt.Services.Implementations;
     using Microsoft.AspNetCore.Rewrite;
+    using Bolt.Data.Contexts.Bolt.Interfaces;
+    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.Web.Extensions;
 
     public class Startup
     {
@@ -40,9 +40,18 @@ namespace Bolt.Web
             services.AddDbContext<BoltDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("BoltDatabaseConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<BoltDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = this.Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = this.Configuration["Authentication:Facebook:AppSecret"];
+            });
 
             services.AddMemoryCache();
 
@@ -102,6 +111,8 @@ namespace Bolt.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDatabaseMigration();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
