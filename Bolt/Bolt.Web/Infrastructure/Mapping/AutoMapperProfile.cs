@@ -21,6 +21,7 @@
             this.CreateMap<Product, ProductDTO>();
 
             this.CreateMap<User, UserDTO>();
+            this.CreateMap<User, ListUserViewModel>();
             //.ForMember(c => c.Orders, cfg => cfg.MapFrom(c => c.Orders.Select(o => Mapper.Map<Order, GetOrderDTO>(o)).ToList()));
 
             //    IEnumerable<Type> allTypes = AppDomain

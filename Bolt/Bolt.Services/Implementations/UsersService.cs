@@ -2,8 +2,8 @@
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using DTOs.Users;
@@ -95,6 +95,14 @@
             }
         }
 
-        //TODO: Follow the pipeline and add the logic for the admin user 
+        public async Task<List<ListUserViewModel>> GetAllUsersAsync()
+        {
+            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+
+            List<ListUserViewModel> users = await usersRepository
+                .GetAllUsersAsync();
+
+            return users.ToList();
+        }
     }
 }

@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Bolt.Core.Data.Repositories;
 using Bolt.Data.Contexts.Bolt.Interfaces;
 using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+using Bolt.DTOs.Users;
 using Bolt.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +36,14 @@ namespace Bolt.Data.Contexts.Bolt.Implementations.Repositories
             return user;
         }
 
-        //TODO: Add another method here to get all repositories
+        public async Task<List<ListUserViewModel>> GetAllUsersAsync()
+        {
+            List<ListUserViewModel> allUsers = await this.AsQueryable()
+                .ProjectTo<ListUserViewModel>()
+                .OrderBy(e => e.Email)
+                .ToListAsync();
+
+            return allUsers;
+        }
     }
 }
