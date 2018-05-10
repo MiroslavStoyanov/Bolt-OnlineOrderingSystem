@@ -1,15 +1,14 @@
 ﻿namespace Bolt.Services.Implementations
 {
     using System;
-    using System.Threading.Tasks;
     using System.Collections.Generic;
-
-    using Models;
-    using DTOs.Products;
-    using Core.Validation;
-    using Core.Data.Repositories;
+    using System.Threading.Tasks;
+    using Bolt.Core.Data.Repositories;
+    using Bolt.Core.Validation;
     using Bolt.Data.Contexts.Bolt.Interfaces;
     using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.DTOs.Products;
+    using Bolt.Models;
     using Bolt.Services.ExceptionHandling;
     using Bolt.Services.Interfaces;
 
@@ -26,7 +25,7 @@
         {
             try
             {
-                IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+                var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
                 ProductDetailsDTO product = await productsRepository.GetProductDetailsAsync(productId);
 
@@ -42,7 +41,7 @@
         {
             try
             {
-                IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+                var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
                 List<ProductDTO> products = await productsRepository.GetAllProductsAsync();
 
@@ -58,7 +57,7 @@
         {
             try
             {
-                IProductsRepository productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
+                var productsRepository = this._unitOfWork.GetRepository<IProductsRepository>();
 
                 List<ProductDTO> products = await productsRepository.GetProductsByIDsAsync(productIds);
 
@@ -72,7 +71,8 @@
 
         public async Task AddProductAsync(ProductDTO model)
         {
-            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.AddProductModelNullMessage);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException),
+                ExceptionMessages.AddProductModelNullMessage);
 
             try
             {
@@ -93,8 +93,10 @@
 
         public async Task UpdateProductAsync(int productId, ProductDTO model)
         {
-            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException), ExceptionMessages.UpdateProductNullProductIdMessage);
-            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.UpdateProductNullModelMessage);
+            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException),
+                ExceptionMessages.UpdateProductNullProductIdMessage);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException),
+                ExceptionMessages.UpdateProductNullModelMessage);
 
             try
             {
@@ -116,7 +118,8 @@
 
         public async Task DeleteProductAsync(int productId)
         {
-            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException), ExceptionMessages.DeleteProductNullIdMessage);
+            Require.ThatIntIsNotNull(productId, typeof(ArgumentNullException),
+                ExceptionMessages.DeleteProductNullIdMessage);
 
             try
             {

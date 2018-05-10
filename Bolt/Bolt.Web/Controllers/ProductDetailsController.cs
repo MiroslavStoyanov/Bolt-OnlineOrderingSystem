@@ -1,13 +1,10 @@
-﻿using Bolt.Services.Interfaces;
-
-namespace Bolt.Web.Controllers
+﻿namespace Bolt.Web.Controllers
 {
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Mvc;
+    using Bolt.DTOs.Products;
+    using Bolt.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
-
-    using DTOs.Products;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class ProductDetailsController : Controller
@@ -22,7 +19,7 @@ namespace Bolt.Web.Controllers
         public async Task<IActionResult> Index(int productId)
         {
             ProductDetailsDTO product = await this._productsService.GetProductDetailsAsync(productId);
-            return View(product);
+            return this.View(product);
         }
     }
 }

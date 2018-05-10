@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using DTOs.Users;
+    using Bolt.DTOs.Users;
     using Bolt.Services.Interfaces;
-    using Microsoft.AspNetCore.Mvc;
+    using Bolt.Web.Infrastructure.Statics;
     using Microsoft.AspNetCore.Authorization;
-    using Infrastructure.Statics;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.AdministratorRole)]
     public class IdentityController : Controller
@@ -22,8 +22,7 @@
         {
             List<ListUserViewModel> users = await this._usersService.GetAllUsersAsync();
 
-            return View(users);
+            return this.View(users);
         }
-
     }
 }

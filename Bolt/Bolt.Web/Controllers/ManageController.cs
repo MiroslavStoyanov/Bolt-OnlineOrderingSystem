@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Bolt.Models;
-using Bolt.Web.Extensions;
-using Bolt.Web.Models.ManageViewModels;
-using Bolt.Web.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
-namespace Bolt.Web.Controllers
+﻿namespace Bolt.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+    using Bolt.Models;
+    using Bolt.Web.Extensions;
+    using Bolt.Web.Models.ManageViewModels;
+    using Bolt.Web.Services;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class ManageController : Controller
@@ -125,7 +125,7 @@ namespace Bolt.Web.Controllers
             }
 
             string code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = this.Url.EmailConfirmationLink(user.Id, code, this.Request.Scheme);
+            string callbackUrl = this.Url.EmailConfirmationLink(user.Id, code, this.Request.Scheme);
             string email = user.Email;
             await this._emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
@@ -149,7 +149,7 @@ namespace Bolt.Web.Controllers
                 return this.RedirectToAction(nameof(SetPassword));
             }
 
-            var model = new ChangePasswordViewModel { StatusMessage = this.StatusMessage };
+            var model = new ChangePasswordViewModel {StatusMessage = this.StatusMessage};
             return this.View(model);
         }
 
@@ -201,7 +201,7 @@ namespace Bolt.Web.Controllers
                 return this.RedirectToAction(nameof(ChangePassword));
             }
 
-            var model = new SetPasswordViewModel { StatusMessage = this.StatusMessage };
+            var model = new SetPasswordViewModel {StatusMessage = this.StatusMessage};
             return this.View(model);
         }
 
@@ -244,7 +244,7 @@ namespace Bolt.Web.Controllers
                     $"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
             }
 
-            var model = new ExternalLoginsViewModel { CurrentLogins = await this._userManager.GetLoginsAsync(user) };
+            var model = new ExternalLoginsViewModel {CurrentLogins = await this._userManager.GetLoginsAsync(user)};
             model.OtherLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => model.CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
@@ -484,7 +484,7 @@ namespace Bolt.Web.Controllers
 
             IEnumerable<string> recoveryCodes =
                 await this._userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-            var model = new GenerateRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
+            var model = new GenerateRecoveryCodesViewModel {RecoveryCodes = recoveryCodes.ToArray()};
 
             this._logger.LogInformation("User with ID {UserId} has generated new 2FA recovery codes.", user.Id);
 
@@ -510,6 +510,7 @@ namespace Bolt.Web.Controllers
                 result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
                 currentPosition += 4;
             }
+
             if (currentPosition < unformattedKey.Length)
             {
                 result.Append(unformattedKey.Substring(currentPosition));

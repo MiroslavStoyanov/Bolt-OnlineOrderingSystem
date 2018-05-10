@@ -1,18 +1,15 @@
-﻿using Bolt.Services.Interfaces;
-
-namespace Bolt.Web.Controllers
+﻿namespace Bolt.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
-
-    using Newtonsoft.Json;
-    using Microsoft.AspNetCore.Mvc;
+    using Bolt.DTOs.Orders;
+    using Bolt.DTOs.Products;
+    using Bolt.Services.Interfaces;
+    using Bolt.Web.Services;
     using Microsoft.AspNetCore.Authorization;
-
-    using Services;
-    using DTOs.Orders;
-    using DTOs.Products;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     [Authorize]
     public class MenuController : Controller
@@ -32,7 +29,7 @@ namespace Bolt.Web.Controllers
         {
             GetMenuDTO menu = await this._menuService.GetMenuAsync();
 
-            return View(menu);
+            return this.View(menu);
         }
 
         [HttpPost]
@@ -79,6 +76,8 @@ namespace Bolt.Web.Controllers
 
         [HttpGet]
         public IActionResult OpenProductDetailsAsync(int productId)
-            => this.RedirectToAction("Index", "ProductDetailsController", new { productId = productId });
+        {
+            return this.RedirectToAction("Index", "ProductDetailsController", new {productId});
+        }
     }
 }

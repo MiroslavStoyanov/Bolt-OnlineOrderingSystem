@@ -1,14 +1,13 @@
-﻿using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-using Bolt.Services.ExceptionHandling;
-using Bolt.Services.Interfaces;
-
-namespace Bolt.Services.Implementations
+﻿namespace Bolt.Services.Implementations
 {
     using System;
     using System.Threading.Tasks;
-    using DTOs.Orders;
-    using Core.Data.Repositories;
+    using Bolt.Core.Data.Repositories;
+    using Bolt.Data.Contexts.Bolt.Interfaces;
+    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.DTOs.Orders;
+    using Bolt.Services.ExceptionHandling;
+    using Bolt.Services.Interfaces;
 
     public class MenuService : IMenuService
     {
@@ -23,7 +22,7 @@ namespace Bolt.Services.Implementations
         {
             try
             {
-                IMenuRepository menuRepository = this._unitOfWork.GetRepository<IMenuRepository>();
+                var menuRepository = this._unitOfWork.GetRepository<IMenuRepository>();
 
                 GetMenuDTO menu = await menuRepository.GetMenuAsync();
 

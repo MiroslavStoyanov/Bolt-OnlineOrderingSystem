@@ -1,15 +1,13 @@
 ﻿namespace Bolt.Web.Controllers
 {
-    using System.Threading.Tasks;
     using System.Collections.Generic;
-
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
-
+    using System.Threading.Tasks;
+    using Bolt.DTOs.Orders;
+    using Bolt.DTOs.Users;
     using Bolt.Services.Interfaces;
-    using DTOs.Users;
-    using DTOs.Orders;
-    using ViewModels.UserSettings;
+    using Bolt.Web.ViewModels.UserSettings;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class UserSettingsController : Controller
@@ -32,7 +30,7 @@
             List<GetOrderDTO> orders = await this._ordersService.GetOrdersForUsername(username, numberOfOrdersToTake);
 
             var userSettingsViewModel = new UserSettingsViewModel(user, orders);
-            return View(userSettingsViewModel);
+            return this.View(userSettingsViewModel);
         }
 
         public async Task<IActionResult> Edit(UserDTO model)
@@ -40,7 +38,7 @@
             string username = this.User.Identity.Name;
             await this._usersService.EditUserAsync(username, model);
 
-            return RedirectToAction("Index");
+            return this.RedirectToAction("Index");
         }
     }
 }
