@@ -51,6 +51,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: Add the Facebook AppId and AppSecret in the userSecrets. If it doesn't work, read the settings from appsettings.json
             this._testSecret = this.Configuration[""];
 
             services.AddDbContext<BoltDbContext>(options =>
