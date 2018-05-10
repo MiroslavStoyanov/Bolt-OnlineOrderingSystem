@@ -33,10 +33,26 @@
             this.Configuration = configuration;
         }
 
+        string _testSecret = null;
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            this.Configuration = builder.Build();
+        }
+
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            this._testSecret = this.Configuration[""];
+
             services.AddDbContext<BoltDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("BoltDatabaseConnection")));
 
@@ -129,7 +145,7 @@
                             {
                                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                                 context.Response.ContentType = "text/html";
-                                IExceptionHandlerFeature ex = context.Features.Get<IExceptionHandlerFeature>();
+                                var ex = context.Features.Get<IExceptionHandlerFeature>();
                                 if (ex != null)
                                 {
                                     string err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace }";
