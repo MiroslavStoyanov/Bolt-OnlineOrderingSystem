@@ -1,20 +1,18 @@
 ﻿namespace Bolt.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
-
-    using Newtonsoft.Json;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
-
-    using Services;
+    using Bolt.DTOs.Orders;
+    using Bolt.DTOs.Products;
     using Bolt.Models;
-    using DTOs.Orders;
-    using DTOs.Products;
-    using ViewModels.Cart;
     using Bolt.Services.Interfaces;
+    using Bolt.Web.Services;
+    using Bolt.Web.ViewModels.Cart;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     [Authorize]
     public class CartController : Controller
@@ -47,7 +45,7 @@
                 return this.View(products);
             }
 
-            List<ProductShoppingCartCache> deserializedProducts =
+            var deserializedProducts =
                 JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             IEnumerable<int> productIds = deserializedProducts.Select(a => a.Id);
@@ -87,7 +85,7 @@
         {
             string cachedProducts = this._cookieCachingService.Get("products");
 
-            List<ProductShoppingCartCache> deserializedProducts = JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
+            var deserializedProducts = JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             ProductShoppingCartCache product = deserializedProducts.FirstOrDefault(p => p.Id == productId);
             product.Quantity = quantity;
@@ -99,7 +97,7 @@
         {
             string cachedProducts = this._cookieCachingService.Get("products");
 
-            List<ProductShoppingCartCache> deserializedProducts =
+            var deserializedProducts =
                 JsonConvert.DeserializeObject<List<ProductShoppingCartCache>>(cachedProducts);
 
             string username = this.User.Identity.Name;
@@ -117,7 +115,7 @@
 
             this._cookieCachingService.Remove("products");
 
-            return this.RedirectToAction("Index", "OrderTracker", new { orderId });
+            return this.RedirectToAction("Index", "OrderTracker", new {orderId});
         }
     }
 }

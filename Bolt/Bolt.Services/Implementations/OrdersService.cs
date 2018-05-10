@@ -1,19 +1,18 @@
 ﻿namespace Bolt.Services.Implementations
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
-
-    using Models;
-    using Interfaces;
-    using DTOs.Orders;
-    using ExceptionHandling;
-    using Core.Data.Transactions;
-    using Core.Data.Repositories;
+    using Bolt.Core.Data.Repositories;
+    using Bolt.Core.Data.Transactions;
+    using Bolt.Core.Validation;
     using Bolt.Data.Contexts.Bolt.Interfaces;
     using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-    using Bolt.Core.Validation;
+    using Bolt.DTOs.Orders;
+    using Bolt.Models;
+    using Bolt.Services.ExceptionHandling;
+    using Bolt.Services.Interfaces;
 
     public class OrdersService : IOrdersService
     {
@@ -28,11 +27,11 @@
         {
             try
             {
-                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+                var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
                 GetOrderDTO orderDTO = await ordersRepository.GetOrder(orderId);
 
-                var orderLines = orderDTO.OrderLines
+                List<OrderLine> orderLines = orderDTO.OrderLines
                     .Select(p => new OrderLine
                     {
                         ProductId = p.Id,
@@ -65,7 +64,7 @@
         {
             try
             {
-                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+                var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
                 OrderStatus orderStatus = await ordersRepository.GetOrderStatusAsync(orderId);
                 return orderStatus;
@@ -78,11 +77,12 @@
 
         public async Task<int> AddOrderAsync(CreateOrderDTO orderDTO)
         {
-            Require.ThatObjectIsNotNull(orderDTO.Products, typeof(ArgumentException), ExceptionMessages.AddOrderAsyncProductsNullMessage);
+            Require.ThatObjectIsNotNull(orderDTO.Products, typeof(ArgumentException),
+                ExceptionMessages.AddOrderAsyncProductsNullMessage);
 
             try
             {
-                var orderLines = orderDTO.Products
+                List<OrderLine> orderLines = orderDTO.Products
                     .Select(p => new OrderLine
                     {
                         ProductId = p.Id,
@@ -115,7 +115,7 @@
         {
             try
             {
-                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+                var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
                 List<GetOrderDTO> orders = await ordersRepository.GetLastOrdersForUser(userId, numberOfOrdersToTake);
                 return orders;
@@ -130,7 +130,7 @@
         {
             try
             {
-                IOrdersRepository ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
+                var ordersRepository = this._unitOfWork.GetRepository<IOrdersRepository>();
 
                 List<GetOrderDTO> orders = await ordersRepository.GetOrdersForUsername(username, numberOfOrdersToTake);
                 return orders;

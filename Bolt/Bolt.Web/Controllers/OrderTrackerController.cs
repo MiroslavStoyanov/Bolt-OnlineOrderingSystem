@@ -1,12 +1,9 @@
-﻿using Bolt.Services.Interfaces;
-
-namespace Bolt.Web.Controllers
+﻿namespace Bolt.Web.Controllers
 {
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Mvc;
-
     using Bolt.Models;
+    using Bolt.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
 
     public class OrderTrackerController : Controller
     {
@@ -20,7 +17,7 @@ namespace Bolt.Web.Controllers
         public async Task<IActionResult> Index(int orderId)
         {
             OrderStatus orderStatus = await this._ordersService.GetOrderStatusAsync(orderId);
-            return View(orderStatus);
+            return this.View(orderStatus);
         }
     }
 }

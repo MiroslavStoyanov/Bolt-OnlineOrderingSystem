@@ -35,10 +35,27 @@ namespace Bolt.Web
             this.Configuration = configuration;
         }
 
+        string _testSecret = null;
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            this.Configuration = builder.Build();
+        }
+
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: Add the Facebook AppId and AppSecret in the userSecrets. If it doesn't work, read the settings from appsettings.json
+            this._testSecret = this.Configuration[""];
+
             services.AddDbContext<BoltDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("BoltDatabaseConnection")));
 

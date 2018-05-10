@@ -1,20 +1,20 @@
 ﻿namespace Bolt.Services.Implementations
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Microsoft.EntityFrameworkCore;
-    using DTOs.Users;
-    using Models;
-    using Interfaces;
-    using ExceptionHandling;
-    using Core.Validation;
-    using Core.Data.Repositories;
-    using Core.Data.Transactions;
+    using Bolt.Core.Data.Repositories;
+    using Bolt.Core.Data.Transactions;
+    using Bolt.Core.Validation;
     using Bolt.Data.Contexts.Bolt.Interfaces;
     using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.DTOs.Users;
+    using Bolt.Models;
+    using Bolt.Services.ExceptionHandling;
+    using Bolt.Services.Interfaces;
+    using Microsoft.EntityFrameworkCore;
 
     public class UsersService : IUsersService
     {
@@ -27,11 +27,12 @@
 
         public async Task<UserDTO> GetUserByUsernameAsync(string username)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.GetUserByUsernameNullStringMessage);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException),
+                ExceptionMessages.GetUserByUsernameNullStringMessage);
 
             try
             {
-                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+                var usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
                 User user = await usersRepository.GetUserByUsernameAsync(username);
 
@@ -45,12 +46,14 @@
 
         public async Task EditUserAsync(string username, UserDTO model)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.EditUserAsyncUsernameNullMessage);
-            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException), ExceptionMessages.EditUserAsyncModelNullMessage);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException),
+                ExceptionMessages.EditUserAsyncUsernameNullMessage);
+            Require.ThatObjectIsNotNull(model, typeof(ArgumentNullException),
+                ExceptionMessages.EditUserAsyncModelNullMessage);
 
             try
             {
-                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+                var usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
                 User user = await usersRepository.GetUserByUsernameAsync(username);
                 user.FirstName = model.FirstName;
@@ -65,7 +68,8 @@
 
                 if (commitTransaction == null || !commitTransaction.IsSuccessful)
                 {
-                    throw new ArgumentException(ExceptionMessages.CommitTransactionMessage, commitTransaction?.CommitException);
+                    throw new ArgumentException(ExceptionMessages.CommitTransactionMessage,
+                        commitTransaction?.CommitException);
                 }
             }
             catch (Exception ex)
@@ -76,11 +80,12 @@
 
         public async Task<string> GetUserIdByUsernameAsync(string username)
         {
-            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException), ExceptionMessages.GetUserIdByUsernameNullUsernameMessage);
+            Require.ThatStringIsNotNullOrEmpty(username, typeof(ArgumentException),
+                ExceptionMessages.GetUserIdByUsernameNullUsernameMessage);
 
             try
             {
-                IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+                var usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
                 string userId = await usersRepository
                     .Where(u => u.UserName == username)
@@ -97,7 +102,7 @@
 
         public async Task<List<ListUserViewModel>> GetAllUsersAsync()
         {
-            IUsersRepository usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
+            var usersRepository = this._unitOfWork.GetRepository<IUsersRepository>();
 
             List<ListUserViewModel> users = await usersRepository
                 .GetAllUsersAsync();
