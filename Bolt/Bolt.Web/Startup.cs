@@ -1,68 +1,57 @@
-﻿using Bolt.Web.Infrastructure.Configurations;
-
-namespace Bolt.Web
+﻿namespace Bolt.Web
 {
-    using System.Net;
     using AutoMapper;
-    using Microsoft.AspNetCore.Mvc;
+    using Bolt.Core.Data.Repositories;
+    using Bolt.Data.Contexts.Bolt.Implementations;
+    using Bolt.Data.Contexts.Bolt.Implementations.Repositories;
+    using Bolt.Data.Contexts.Bolt.Interfaces;
+    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using Bolt.Models;
+    using Bolt.Services.Implementations;
+    using Bolt.Services.Interfaces;
+    using Bolt.Web.Configuration;
+    using Bolt.Web.Extensions;
+    using Bolt.Web.Filters;
+    using Bolt.Web.Infrastructure.Configurations;
+    using Bolt.Web.Services;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Rewrite;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.AspNetCore.Authentication.Cookies;
-    using Bolt.Data.Contexts.Bolt.Implementations;
-    using Bolt.Data.Contexts.Bolt.Implementations.Repositories;
-    using Bolt.Services.Interfaces;
-    using Bolt.Web.Filters;
-    using Microsoft.AspNetCore.Diagnostics;
-    using Microsoft.AspNetCore.Http;
-    using Bolt.Models;
-    using Bolt.Web.Services;
-    using Bolt.Web.Configuration;
-    using Bolt.Core.Data.Repositories;
-    using Bolt.Services.Implementations;
-    using Microsoft.AspNetCore.Rewrite;
-    using Bolt.Data.Contexts.Bolt.Interfaces;
-    using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-    using Bolt.Web.Extensions;
 
     public class Startup
-    {
-        public Startup(IConfiguration configuration)
+    {    
+        public IHostingEnvironment HostingEnvironment { get; }
+
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            this.HostingEnvironment = env;
             this.Configuration = configuration;
-        }
 
-        string _testSecret = null;
-
-        public Startup(IHostingEnvironment env)
-        {
             var builder = new ConfigurationBuilder();
 
             if (env.IsDevelopment())
             {
                 builder.AddUserSecrets<Startup>();
             }
-
-            this.Configuration = builder.Build();
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             //TODO: Add the Facebook AppId and AppSecret in the userSecrets. If it doesn't work, read the settings from appsettings.json
-            this._testSecret = this.Configuration[""];
-
             services.AddDbContext<BoltDbContext>(options =>
-                options.UseSqlServer(this.Configuration.GetConnectionString("BoltDatabaseConnection")));
-
-            services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequireUppercase = false;
-            })
+                options.UseSqlServer(this.Configuration.GetConnectionString("BoltDatabaseConnection"));
+            });
+
+            services.AddIdentity<User, IdentityRole>(options => { options.Password.RequireUppercase = false; })
                 .AddEntityFrameworkStores<BoltDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -79,18 +68,14 @@ namespace Bolt.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+            services.Configure<MvcOptions>(options => { options.Filters.Add(new RequireHttpsAttribute()); });
 
             services.AddMvc(
-            options =>
-            {
-                options.Filters.Add(typeof(CustomExceptionFilter));
-                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
-
-            }).AddRazorPagesOptions(options =>
+                options =>
+                {
+                    options.Filters.Add(typeof(CustomExceptionFilter));
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                }).AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeFolder("/Account/Manage");
                 options.Conventions.AuthorizePage("/Account/Logout");
@@ -124,7 +109,7 @@ namespace Bolt.Web
 
             services.AddScoped<ICookieCachingService, CookieCachingService>();
             services.AddSingleton<IEmailSender, EmailSender>();
-
+            
             DatabaseConfig.InitializeDatabase(services.BuildServiceProvider());
         }
 
@@ -140,10 +125,10 @@ namespace Bolt.Web
             }
             else
             {
-               ExceptionHandlerConfiguration.AddExceptionHandler(app);
+                ExceptionHandlerConfiguration.AddExceptionHandler(app);
             }
 
-            RewriteOptions rewriteOptions = new RewriteOptions().AddRedirectToHttps();
+            var rewriteOptions = new RewriteOptions().AddRedirectToHttps();
 
             app.UseRewriter(rewriteOptions);
 
