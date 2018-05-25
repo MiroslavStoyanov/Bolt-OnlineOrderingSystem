@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
-using Bolt.Core.Data.Repositories;
-using Bolt.Data.Contexts.Bolt.Interfaces;
-using Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
-using Bolt.DTOs.Products;
-using Bolt.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace Bolt.Data.Contexts.Bolt.Implementations.Repositories
+﻿namespace Bolt.Data.Contexts.Bolt.Implementations.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper.QueryableExtensions;
+    using global::Bolt.Core.Data.Repositories;
+    using global::Bolt.Data.Contexts.Bolt.Interfaces;
+    using global::Bolt.Data.Contexts.Bolt.Interfaces.Repositories;
+    using global::Bolt.DTOs.Products;
+    using global::Bolt.Models;
+    using Microsoft.EntityFrameworkCore;
+
     public class ProductsRepository : EFRepository<Product>, IProductsRepository
     {
         public ProductsRepository(IBoltDbContext context)

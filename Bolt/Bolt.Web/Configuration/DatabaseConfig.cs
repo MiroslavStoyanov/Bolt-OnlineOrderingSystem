@@ -17,7 +17,6 @@
             
             boltDbContext.SetInitializer(
                 new DropCreateDatabaseAlways<BoltDbContext>(new BoltDatabaseConfiguration()));
-
         }
     }
 }

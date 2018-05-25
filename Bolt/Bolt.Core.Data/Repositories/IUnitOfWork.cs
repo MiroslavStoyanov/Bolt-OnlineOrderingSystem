@@ -1,8 +1,8 @@
-﻿using Bolt.Core.Data.Contexts;
-using Bolt.Core.Data.Transactions;
-
-namespace Bolt.Core.Data.Repositories
+﻿namespace Bolt.Core.Data.Repositories
 {
+    using Bolt.Core.Data.Contexts;
+    using Bolt.Core.Data.Transactions;
+
     public interface IUnitOfWork<TDbContext>
         where TDbContext : IEFDbContext
     {

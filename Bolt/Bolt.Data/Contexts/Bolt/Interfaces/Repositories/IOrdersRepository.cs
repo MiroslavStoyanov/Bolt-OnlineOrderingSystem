@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bolt.Core.Data.Repositories;
-using Bolt.DTOs.Orders;
-using Bolt.Models;
-
-namespace Bolt.Data.Contexts.Bolt.Interfaces.Repositories
+﻿namespace Bolt.Data.Contexts.Bolt.Interfaces.Repositories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using global::Bolt.Core.Data.Repositories;
+    using global::Bolt.DTOs.Orders;
+    using global::Bolt.Models;
+
     public interface IOrdersRepository : IEFRepository<Order>
     {
         Task<GetOrderDTO> GetOrder(int orderId);

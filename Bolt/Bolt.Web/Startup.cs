@@ -17,6 +17,7 @@
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Rewrite;
@@ -45,6 +46,11 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<IISOptions>(options => 
+            {
+                options.ForwardClientCertificate = false;
+            });
+
             //TODO: Add the Facebook AppId and AppSecret in the userSecrets. If it doesn't work, read the settings from appsettings.json
             services.AddDbContext<BoltDbContext>(options =>
             {
@@ -65,7 +71,8 @@
 
             services.AddAutoMapper();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
             services.Configure<MvcOptions>(options => { options.Filters.Add(new RequireHttpsAttribute()); });
@@ -75,11 +82,18 @@
                 {
                     options.Filters.Add(typeof(CustomExceptionFilter));
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
-                }).AddRazorPagesOptions(options =>
+                })
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Account/Manage");
+                    options.Conventions.AuthorizePage("/Account/Logout");
+                });
+
+            services.AddHttpsRedirection(options =>
             {
-                options.Conventions.AuthorizeFolder("/Account/Manage");
-                options.Conventions.AuthorizePage("/Account/Logout");
-            });
+                options.RedirectStatusCode = StatusCodes.Status301MovedPermanently;
+                options.HttpsPort = 5001;
+            });           
 
             #region Bolt.Core.Data
 
@@ -128,11 +142,14 @@
                 ExceptionHandlerConfiguration.AddExceptionHandler(app);
             }
 
-            var rewriteOptions = new RewriteOptions().AddRedirectToHttps();
+            RewriteOptions rewriteOptions = new RewriteOptions().AddRedirectToHttps();
 
             app.UseRewriter(rewriteOptions);
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true
+            });
 
             app.UseCookiePolicy();
 

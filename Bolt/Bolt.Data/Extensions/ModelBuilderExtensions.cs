@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-
-namespace Bolt.Data.Extensions
+﻿namespace Bolt.Data.Extensions
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using Microsoft.EntityFrameworkCore;
+
     public static class ModelBuilderExtensions
     {
         public static void AddFromAssembly(this ModelBuilder modelBuilder, Type configurationType,

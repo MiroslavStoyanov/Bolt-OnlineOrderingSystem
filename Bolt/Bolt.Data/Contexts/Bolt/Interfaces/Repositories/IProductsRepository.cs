@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bolt.Core.Data.Repositories;
-using Bolt.DTOs.Products;
-using Bolt.Models;
-
-namespace Bolt.Data.Contexts.Bolt.Interfaces.Repositories
+﻿namespace Bolt.Data.Contexts.Bolt.Interfaces.Repositories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using global::Bolt.Core.Data.Repositories;
+    using global::Bolt.DTOs.Products;
+    using global::Bolt.Models;
+
     public interface IProductsRepository : IEFRepository<Product>
     {
         Task<ProductDetailsDTO> GetProductDetailsAsync(int productId);

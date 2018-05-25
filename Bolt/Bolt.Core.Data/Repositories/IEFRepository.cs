@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace Bolt.Core.Data.Repositories
+﻿namespace Bolt.Core.Data.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
     public interface IEFRepository<TEntity> where TEntity : class
     {
         IQueryable<TEntity> AsQueryable();
