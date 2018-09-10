@@ -5,7 +5,7 @@ class HomePage extends React.Component {
     render() {
         return (
             <div className="jumbotron">
-                <h1>Bolt Online Orderign</h1>
+                <h1>Bolt Online Ordering</h1>
                 <p>Welcome to Bolt Online Ordering.
                     Feel free to browse and get anything you find tasty and powerful enough to get you going!
                 </p>
