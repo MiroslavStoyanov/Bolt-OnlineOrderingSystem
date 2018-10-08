@@ -14,14 +14,18 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
+    "create-react-app": "^2.0.3",
     "jquery": "2.2.3",
+    "material-ui": "^0.20.2",
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-redux": "4.4.5",
     "react-router": "2.4.0",
     "react-router-redux": "4.0.4",
+    "react-tap-event-plugin": "^3.0.3",
     "redux": "3.5.2",
     "redux-thunk": "2.0.1",
     "toastr": "2.1.2"

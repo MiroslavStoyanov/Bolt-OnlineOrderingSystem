@@ -4,6 +4,7 @@
     min-width: 550px;
     max-width: 850px;
     margin: 0 auto;
+    appearance: initial;
 }
 
 a.active {
@@ -12,4 +13,5 @@ a.active {
 
 nav {
     padding-top: 20px;
+    padding-bottom: 10px;
 }
